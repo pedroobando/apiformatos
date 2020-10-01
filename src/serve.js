@@ -23,6 +23,6 @@ serve.use(json());
 // Rutas
 serve.use('/api/auth', require('./routers/auth.route'));
 // serve.use('/api/persona', require('./routers/persona'));
-// serve.use('/api/vehiculo', require('./routers/vehiculo'));
+serve.use('/api/vehiculo', require('./routers/vehiculo.route'));
 
 module.exports = { serve, thePort };

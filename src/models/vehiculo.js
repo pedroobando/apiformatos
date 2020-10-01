@@ -2,25 +2,25 @@ const { Schema, model } = require('mongoose');
 
 const UserSchema = Schema(
   {
-    name: {
+    placa: {
       type: String,
       required: true,
-      lowercase: true,
-      trim: true,
-    },
-    fullname: {
-      type: String,
-      trim: true,
-    },
-    email: {
-      type: String,
       index: true,
-      required: true,
       unique: true,
+      uppercase: true,
+      trim: true,
     },
-    password: {
+    marca: {
       type: String,
-      required: true,
+      trim: true,
+    },
+    modelo: {
+      type: String,
+      trim: true,
+    },
+    color: {
+      type: String,
+      trim: true,
     },
   },
   {
@@ -29,4 +29,4 @@ const UserSchema = Schema(
   }
 );
 
-module.exports = model('User', UserSchema);
+module.exports = model('Vehiculo', UserSchema);

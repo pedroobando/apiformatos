@@ -5,16 +5,24 @@
 ## La base de datos
 
 ```bash
+  # mongo local
+  con solo este comando creeamos la base de datos en un contenedor.
+  $ docker run --name mongodb -it -d --restart always -p 27017:27017 mongo:4.2-bionic
+
   # mongo
   base de datos es Mongo, la cual se ejecuta desde un contenidor Docker.
   mediante el comando,
   $ docker-compose up
 
-# docker-compose.yml
+  # docker-compose.yml
   Contiene la configuracion del contenedor docker y mongo,
   instala de una ves la base de datos y la aplicacion mongo-express,
   permitiendo administrar de forma grafica el servidor de base de datos.
 ```
+
+## Mongodb-compass
+
+[Mongodb-Compass](https://www.mongodb.com/products/compass) esta aplicacion nos permite conectarnos a la base de datos.
 
 ## rutas
 

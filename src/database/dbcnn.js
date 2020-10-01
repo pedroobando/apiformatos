@@ -10,9 +10,10 @@ const dbConnection = async () => {
 
     console.log('DB Online');
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     throw new Error('Error a la hora de incializar DB');
   }
+  mongoose.set('useFindAndModify', false);
 };
 
 module.exports = { dbConnection };

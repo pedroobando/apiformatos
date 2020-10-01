@@ -79,8 +79,7 @@ const renewToken = async (req, res = response) => {
 };
 
 const listUser = async (req, res = response) => {
-  const { uid, name } = req;
-  console.log(uid, name);
+  // const { uid, name } = req;
   try {
     const Users = await userModel.find();
     if (!Users) {
@@ -114,32 +113,116 @@ const listUser = async (req, res = response) => {
   }
 };
 
-// bueno esto queda pediente
 const updateUser = async (req, res = response) => {
-  const { email, password } = req.body;
+  const { uid } = req;
+  const { name, fullname, email } = req.body;
+  // const { uid, name } = req;
   try {
-    const user = await userModel.findOne({ email });
-    if (!user) {
-      return res.status(400).json({
+    const User = await userModel.findById(uid);
+    if (!User) {
+      return res.status(404).json({
         ok: false,
         data: {
-          message: 'Usuario y password no validos',
+          message: 'Problema al leer datos del usuarios',
         },
       });
     }
 
-    // Compare password
-    const validPassword = bcrypt.compareSync(password, user.password);
-    if (!validPassword) {
-      return res.status(400).json({
+    if (User.id !== uid) {
+      return res.status(401).json({
         ok: false,
         data: {
-          message: 'Usuario y password no validos.',
+          message: 'No tiene privilegios sobre este usuario',
         },
       });
     }
 
-    return res.status(200).json(await respUserToken(true, user.id, user.name));
+    const userUpdated = await userModel.findByIdAndUpdate(
+      uid,
+      { name, fullname, email },
+      { new: true }
+    );
+    return res.status(200).json(await respUserToken(true, uid, name));
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      data: {
+        message: 'Por favor hable con el administrador',
+      },
+    });
+  }
+};
+
+const updateUserpass = async (req, res = response) => {
+  const { uid } = req;
+  const { password } = req.body;
+  try {
+    const User = await userModel.findById(uid);
+    if (!User) {
+      return res.status(404).json({
+        ok: false,
+        data: {
+          message: 'Problema al leer datos del usuarios',
+        },
+      });
+    }
+
+    if (User.id !== uid) {
+      return res.status(401).json({
+        ok: false,
+        data: {
+          message: 'No tiene privilegios sobre este usuario',
+        },
+      });
+    }
+
+    // Encriptar Contrasena
+    const salt = bcrypt.genSaltSync();
+    const newPass = bcrypt.hashSync(password, salt);
+
+    const userUpdated = await userModel.findByIdAndUpdate(
+      uid,
+      { password: newPass },
+      { new: true }
+    );
+    return res.status(200).json(await respUserToken(true, User.id, User.name));
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      ok: false,
+      data: {
+        message: 'Por favor hable con el administrador',
+      },
+    });
+  }
+};
+
+const deleteUser = async (req, res = response) => {
+  const { uid } = req;
+  const { password } = req.body;
+  try {
+    const User = await userModel.findById(uid);
+    if (!User) {
+      return res.status(404).json({
+        ok: false,
+        data: {
+          message: 'Problema al leer datos del usuarios',
+        },
+      });
+    }
+
+    if (User.id !== uid) {
+      return res.status(401).json({
+        ok: false,
+        data: {
+          message: 'No tiene privilegios sobre este usuario',
+        },
+      });
+    }
+
+    const userDelete = await userModel.findByIdAndDelete(uid);
+    return res.status(200).json({ ok: true });
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -163,4 +246,12 @@ const respUserToken = async (ok, uid, name) => {
   };
 };
 
-module.exports = { createUser, loginUser, renewToken, listUser };
+module.exports = {
+  createUser,
+  loginUser,
+  renewToken,
+  listUser,
+  deleteUser,
+  updateUser,
+  updateUserpass,
+};

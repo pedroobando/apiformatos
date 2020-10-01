@@ -1,6 +1,6 @@
 /*
   Rutas de Usuarios / Auth
-  host + /api/auth
+  host + /api/user
 */
 const router = require('express').Router();
 const { check } = require('express-validator');
@@ -8,29 +8,36 @@ const { check } = require('express-validator');
 const { fieldValid } = require('../middlewares/fieldValid');
 const { validJWT } = require('../middlewares/validJWT');
 
-const { createUser, loginUser, renewToken } = require('../controllers/auth.controller');
+const {
+  listUser,
+  updateUser,
+  deleteUser,
+  updateUserpass,
+} = require('../controllers/auth.controller');
 
-router.post(
-  '/new',
+router.get('/', validJWT, listUser);
+
+router.put(
+  '/',
   [
     check('name', 'El name es requerido').not().isEmpty(),
     check('email', 'El email es requerido').isEmail(),
-    check('password', 'El password debe ser minimo 6 caracteres').isLength({ min: 6 }),
     fieldValid,
   ],
-  createUser
+  validJWT,
+  updateUser
 );
 
-router.post(
-  '/',
+router.put(
+  '/password',
   [
-    check('email', 'El email es requerido').isEmail(),
     check('password', 'El password debe ser minimo 6 caracteres').isLength({ min: 6 }),
     fieldValid,
   ],
-  loginUser
+  validJWT,
+  updateUserpass
 );
 
-router.get('/renew', validJWT, renewToken);
+router.delete('/', validJWT, deleteUser);
 
 module.exports = router;
