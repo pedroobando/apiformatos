@@ -35,18 +35,6 @@ router.post(
   createVehiculo
 );
 
-router.post(
-  '/',
-  [
-    check('placa', 'La placa del vehiculo es requerida').not().isEmpty(),
-    check('placa', 'La placa del vehiculo debe ser minimo 5 caracteres').isLength({
-      min: 5,
-    }),
-    fieldValid,
-  ],
-  createVehiculo
-);
-
 router.put(
   '/:id',
   [

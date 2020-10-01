@@ -1,8 +1,8 @@
 const { response } = require('express');
-const vehiculoModel = require('../models/vehiculo');
+const personaModel = require('../models/persona');
 
-const createVehiculo = async (req, res = response) => {
-  const entity = new vehiculoModel(req.body);
+const crtEntity = async (req, res = response) => {
+  const entity = new personaModel(req.body);
   try {
     const entitySaved = await entity.save();
 
@@ -16,7 +16,7 @@ const createVehiculo = async (req, res = response) => {
     if (code === 11000) {
       return res.status(400).json({
         ok: false,
-        data: { mensaje: `Duplicidad placa: ${keyValue.placa}` },
+        data: { mensaje: `Duplicidad en identificación: ${keyValue.dni}` },
       });
     }
 
@@ -27,9 +27,9 @@ const createVehiculo = async (req, res = response) => {
   }
 };
 
-const getVehiculo = async (req, res = response) => {
+const getAll = async (req, res = response) => {
   try {
-    const entities = await vehiculoModel.find();
+    const entities = await personaModel.find();
 
     return res.status(200).json({
       ok: true,
@@ -44,7 +44,7 @@ const getVehiculo = async (req, res = response) => {
   }
 };
 
-const getOneVehiculo = async (req, res = response) => {
+const getOne = async (req, res = response) => {
   const { id } = req.params;
   try {
     if (id.length <= 10) {
@@ -54,7 +54,7 @@ const getOneVehiculo = async (req, res = response) => {
       });
     }
 
-    const entity = await vehiculoModel.findById(id);
+    const entity = await personaModel.findById(id);
     return res.status(200).json({
       ok: true,
       data: entity,
@@ -68,21 +68,21 @@ const getOneVehiculo = async (req, res = response) => {
   }
 };
 
-const getPlacaVehiculo = async (req, res = response) => {
-  const { placa } = req.params;
+const getByDni = async (req, res = response) => {
+  const { dni } = req.params;
   try {
-    if (placa.length <= 2) {
+    if (dni.length <= 2) {
       return res.status(404).json({
         ok: false,
-        data: { message: 'Invalida placa' },
+        data: { message: 'Invalida identificacion' },
       });
     }
 
-    const entity = await vehiculoModel.findOne({ placa });
+    const entity = await personaModel.findOne({ dni });
     if (!entity) {
       return res.status(404).json({
         ok: false,
-        data: { message: `Placa ${placa} no localizada` },
+        data: { message: `Identificacion ${dni} no localizada` },
       });
     }
 
@@ -99,20 +99,19 @@ const getPlacaVehiculo = async (req, res = response) => {
   }
 };
 
-const updateVehiculo = async (req, res = response) => {
-  const vehiculoId = req.params.id;
+const updEntity = async (req, res = response) => {
+  const personaId = req.params.id;
   try {
-    const entityFind = await vehiculoModel.findById(vehiculoId);
+    const entityFind = await personaModel.findById(personaId);
     if (!entityFind) {
       return res.status(404).json({
         ok: false,
         data: { message: 'Invalido codigo interno de busqueda' },
       });
     }
-    console.log(vehiculoId);
-    const entity = { ...req.body };
 
-    const entityUpdated = await vehiculoModel.findByIdAndUpdate(vehiculoId, entity, {
+    const entity = { ...req.body };
+    const entityUpdated = await personaModel.findByIdAndUpdate(personaId, entity, {
       new: true,
     });
 
@@ -129,9 +128,10 @@ const updateVehiculo = async (req, res = response) => {
   }
 };
 
-const deleteVehiculo = async (req, res = response) => {
-  const vehiculoId = req.params.id;
-  if (vehiculoId.length <= 20) {
+const delEntity = async (req, res = response) => {
+  const personaId = req.params.id;
+  console.log(personaId);
+  if (personaId.length <= 20) {
     return res.status(404).json({
       ok: false,
       data: { message: 'Invalido codigo interno de busqueda' },
@@ -139,7 +139,7 @@ const deleteVehiculo = async (req, res = response) => {
   }
 
   try {
-    const entityFind = await vehiculoModel.findById(id);
+    const entityFind = await personaModel.findById(personaId);
     if (!entityFind) {
       return res.status(404).json({
         ok: false,
@@ -147,8 +147,7 @@ const deleteVehiculo = async (req, res = response) => {
       });
     }
 
-    console.log(vehiculoId);
-    await vehiculoModel.findByIdAndDelete(vehiculoId);
+    await personaModel.findByIdAndDelete(personaId);
     return res.status(200).json({
       ok: true,
     });
@@ -162,10 +161,10 @@ const deleteVehiculo = async (req, res = response) => {
 };
 
 module.exports = {
-  createVehiculo,
-  getVehiculo,
-  getOneVehiculo,
-  getPlacaVehiculo,
-  updateVehiculo,
-  deleteVehiculo,
+  getAll,
+  getOne,
+  getByDni,
+  crtEntity,
+  updEntity,
+  delEntity,
 };
