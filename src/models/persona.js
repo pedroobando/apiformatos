@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const UserSchema = Schema(
+const PersonaSchema = Schema(
   {
     nombre: {
       type: String,
@@ -22,7 +22,11 @@ const UserSchema = Schema(
     comentario: {
       type: String,
     },
-    aprovador: {
+    aprobadorAdm: {
+      type: Boolean,
+      default: false,
+    },
+    aprobadorSeg: {
       type: Boolean,
       default: false,
     },
@@ -33,4 +37,4 @@ const UserSchema = Schema(
   }
 );
 
-module.exports = model('Persona', UserSchema);
+module.exports = model('Persona', PersonaSchema);

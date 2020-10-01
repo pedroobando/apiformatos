@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const UserSchema = Schema(
+const VehiculoSchema = Schema(
   {
     placa: {
       type: String,
@@ -29,4 +29,4 @@ const UserSchema = Schema(
   }
 );
 
-module.exports = model('Vehiculo', UserSchema);
+module.exports = model('Vehiculo', VehiculoSchema);
