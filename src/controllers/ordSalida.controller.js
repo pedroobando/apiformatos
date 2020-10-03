@@ -101,9 +101,9 @@ const getByDni = async (req, res = response) => {
 };
 
 const updEntity = async (req, res = response) => {
-  const personaId = req.params.id;
+  const entityId = req.params.id;
   try {
-    const entityFind = await ordSalidaModel.findById(personaId);
+    const entityFind = await ordSalidaModel.findById(entityId);
     if (!entityFind) {
       return res.status(404).json({
         ok: false,
@@ -112,10 +112,9 @@ const updEntity = async (req, res = response) => {
     }
 
     const entity = { ...req.body };
-    const entityUpdated = await ordSalidaModel.findByIdAndUpdate(personaId, entity, {
+    const entityUpdated = await ordSalidaModel.findByIdAndUpdate(entityId, entity, {
       new: true,
     });
-
     return res.status(200).json({
       ok: true,
       data: entityUpdated,
@@ -130,9 +129,8 @@ const updEntity = async (req, res = response) => {
 };
 
 const delEntity = async (req, res = response) => {
-  const personaId = req.params.id;
-  console.log(personaId);
-  if (personaId.length <= 20) {
+  const entityId = req.params.id;
+  if (entityId.length <= 20) {
     return res.status(404).json({
       ok: false,
       data: { message: 'Invalido codigo interno de busqueda' },
@@ -140,7 +138,7 @@ const delEntity = async (req, res = response) => {
   }
 
   try {
-    const entityFind = await ordSalidaModel.findById(personaId);
+    const entityFind = await ordSalidaModel.findById(entityId);
     if (!entityFind) {
       return res.status(404).json({
         ok: false,
@@ -148,7 +146,7 @@ const delEntity = async (req, res = response) => {
       });
     }
 
-    await ordSalidaModel.findByIdAndDelete(personaId);
+    await ordSalidaModel.findByIdAndDelete(entityId);
     return res.status(200).json({
       ok: true,
     });
