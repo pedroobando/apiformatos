@@ -2,15 +2,20 @@ const { response } = require('express');
 const ordSalidaModel = require('../models/ordsalida');
 
 const crtEntity = async (req, res = response) => {
-  const entity = new ordSalidaModel(req.body);
+  const { uid } = req;
   try {
+    const { comentario } = req.body;
+    const entity = new ordSalidaModel(req.body);
+    entity.uid = uid;
+    const comentarioAdd = { nota: comentario, usuario: uid, fecha: '2020-10-30' };
+
+    entity.comentarios = [comentarioAdd];
     const entitySaved = await entity.save();
 
     return res.status(201).json({
       ok: true,
       data: entitySaved,
     });
-    return res.status(201).json({ body: entity });
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -34,7 +39,9 @@ const getAll = async (req, res = response) => {
     console.log(error);
     res.status(500).json({
       ok: false,
-      msg: 'Por favor hable con el administrador',
+      data: {
+        message: 'Consulte con el administrador',
+      },
     });
   }
 };
@@ -64,7 +71,9 @@ const getOne = async (req, res = response) => {
     console.log(error);
     res.status(500).json({
       ok: false,
-      msg: 'Por favor hable con el administrador',
+      data: {
+        message: 'Consulte con el administrador',
+      },
     });
   }
 };
@@ -95,7 +104,9 @@ const getByDni = async (req, res = response) => {
     console.log(error);
     res.status(500).json({
       ok: false,
-      msg: 'Por favor hable con el administrador',
+      data: {
+        message: 'Consulte con el administrador',
+      },
     });
   }
 };
@@ -124,7 +135,9 @@ const updEntity = async (req, res = response) => {
     console.log(error);
     res.status(500).json({
       ok: false,
-      msg: 'Por favor hable con el administrador',
+      data: {
+        message: 'Consulte con el administrador',
+      },
     });
   }
 };
@@ -155,7 +168,9 @@ const delEntity = async (req, res = response) => {
     console.log(error);
     res.status(500).json({
       ok: false,
-      msg: 'Por favor hable con el administrador',
+      data: {
+        message: 'Consulte con el administrador',
+      },
     });
   }
 };

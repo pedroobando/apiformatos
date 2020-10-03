@@ -37,9 +37,25 @@ const OrdSalidaSchema = Schema(
       ref: 'Persona',
       required: true,
     },
-    comentario: {
-      type: String,
+    uid: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
     },
+    comentarios: [
+      {
+        fecha: {
+          type: Date,
+          default: Date.now,
+        },
+        nota: {
+          type: String,
+        },
+        usuario: {
+          type: Schema.Types.ObjectId,
+          ref: 'User',
+        },
+      },
+    ],
   },
   {
     versionKey: false,

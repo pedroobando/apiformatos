@@ -16,6 +16,8 @@ const {
   delEntity,
 } = require('../controllers/ordSalida.controller');
 
+const { addNota, delNota } = require('../controllers/ordSalidaNota.controller');
+
 router.use(validJWT); // => Todas las rutas validaran el token
 
 router.get('/', getAll);
@@ -57,5 +59,8 @@ router.put(
 );
 
 router.delete('/:id', delEntity);
+
+router.post('/comentario/:id', addNota);
+router.delete('/comentario/:id', delNota);
 
 module.exports = router;

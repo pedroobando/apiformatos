@@ -20,6 +20,9 @@ serve.use(cors());
 serve.use(helmet());
 serve.use(json());
 
+// public router
+serve.use(express.static('./public'));
+
 // Rutas
 serve.use('/api/auth', require('./routers/auth.route'));
 serve.use('/api/user', require('./routers/user.route'));
