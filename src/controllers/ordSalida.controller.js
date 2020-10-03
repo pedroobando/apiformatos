@@ -102,6 +102,7 @@ const getByDni = async (req, res = response) => {
 
 const updEntity = async (req, res = response) => {
   const entityId = req.params.id;
+  console.log(entityId);
   try {
     const entityFind = await ordSalidaModel.findById(entityId);
     if (!entityFind) {

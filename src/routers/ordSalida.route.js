@@ -42,15 +42,15 @@ router.post(
 router.put(
   '/:id',
   [
-    check('fechaemision', 'La fecha elaboracion es requerida').isDate(),
-    check('material', 'El nombre del material o equipo es requerido').not().isEmpty(),
-    check('material', 'El material o equipo debe contener minimo 5 caracteres').isLength({
-      min: 5,
-    }),
-    check('destino', 'El destino es requerido del equipo es requerido').not().isEmpty(),
-    check('persona', 'Es requerido nombre de la persona responsable').not().isEmpty(),
-    check('aprobadorAdm', 'El aprovador administrativo es requerido').not().isEmpty(),
-    check('aprobadorSeg', 'El aprovador de seguridad es requerido').not().isEmpty(),
+    // check('fechaemision', 'La fecha elaboracion es requerida').isDate(),
+    // check('material', 'El nombre del material o equipo es requerido').not().isEmpty(),
+    // check('material', 'El material o equipo debe contener minimo 5 caracteres').isLength({
+    //   min: 5,
+    // }),
+    // check('destino', 'El destino es requerido del equipo es requerido').not().isEmpty(),
+    // check('persona', 'Es requerido nombre de la persona responsable').not().isEmpty(),
+    // check('aprobadorAdm', 'El aprovador administrativo es requerido').not().isEmpty(),
+    // check('aprobadorSeg', 'El aprovador de seguridad es requerido').not().isEmpty(),
     fieldValid,
   ],
   updEntity
