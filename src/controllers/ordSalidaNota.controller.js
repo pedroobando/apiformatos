@@ -35,12 +35,12 @@ const addNota = async (req, res = response) => {
 };
 
 const delNota = async (req, res = response) => {
-  const id = req.params.id;
+  const entityId = req.params.id;
   const { comentarioId } = req.body;
   try {
-    console.log(id, comentarioId);
+    console.log(entityId, comentarioId);
 
-    const entityFind = await ordSalidaModel.findById(id);
+    const entityFind = await ordSalidaModel.findById(entityId);
     console.log('entityId, comentarioId');
     if (!entityFind) {
       return res.status(404).json({
@@ -49,20 +49,26 @@ const delNota = async (req, res = response) => {
       });
     }
 
-    // const vcomentarios = entityFind.comentarios.filter(
-    //   (coment) => coment._id !== comentarioId
-    // );
+    const vcomentarios = entityFind.comentarios.filter(
+      (coment) => coment.id !== comentarioId
+    );
 
-    // console.log(vcomentarios);
+    console.log(vcomentarios);
+
+    console.log({ ...entityFind, comentarios: vcomentarios });
 
     // entityFind.comentarios = entityFind.comentarios.filter(coment=>(coment.id!==comentarioId)) [...entityFind.comentarios, { fecha, nota, usuario: uid }];
 
-    // const entityUpdated = await ordSalidaModel.findByIdAndUpdate(entityId, entityFind, {
-    //   new: true,
-    // });
+    const entityUpdated = await ordSalidaModel.findByIdAndUpdate(
+      entityId,
+      { comentarios: vcomentarios },
+      {
+        new: true,
+      }
+    );
     return res.status(200).json({
       ok: true,
-      data: entityUpdated,
+      data: vcomentarios,
     });
   } catch (error) {
     console.log(error);

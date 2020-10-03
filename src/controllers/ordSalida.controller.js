@@ -6,7 +6,7 @@ const crtEntity = async (req, res = response) => {
   try {
     const { comentario } = req.body;
     const entity = new ordSalidaModel(req.body);
-    entity.uid = uid;
+    entity.creador = uid;
     const comentarioAdd = { nota: comentario, usuario: uid, fecha: '2020-10-30' };
 
     entity.comentarios = [comentarioAdd];

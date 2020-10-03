@@ -37,7 +37,7 @@ const OrdSalidaSchema = Schema(
       ref: 'Persona',
       required: true,
     },
-    uid: {
+    creador: {
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
@@ -49,6 +49,7 @@ const OrdSalidaSchema = Schema(
         },
         nota: {
           type: String,
+          trim: true,
         },
         usuario: {
           type: Schema.Types.ObjectId,
@@ -64,8 +65,14 @@ const OrdSalidaSchema = Schema(
 );
 
 OrdSalidaSchema.method('toJSON', function () {
-  const { __v, _id, ...object } = this.toObject();
+  const { comentarios, __v, _id, ...object } = this.toObject();
   object.id = _id;
+  object.comentarios = comentarios.map((item) => ({
+    id: item._id,
+    fecha: item.fecha,
+    nota: item.nota,
+    usuario: item.usuario,
+  }));
   return object;
 });
 module.exports = model('OrdSalida', OrdSalidaSchema);
