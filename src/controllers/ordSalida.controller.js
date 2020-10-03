@@ -3,14 +3,13 @@ const ordSalidaModel = require('../models/ordsalida');
 
 const crtEntity = async (req, res = response) => {
   const entity = new ordSalidaModel(req.body);
-  console.log(entity);
   try {
-    // const entitySaved = await entity.save();
+    const entitySaved = await entity.save();
 
-    // return res.status(201).json({
-    //   ok: true,
-    //   data: entitySaved,
-    // });
+    return res.status(201).json({
+      ok: true,
+      data: entitySaved,
+    });
     return res.status(201).json({ body: entity });
   } catch (error) {
     console.log(error);
@@ -51,6 +50,12 @@ const getOne = async (req, res = response) => {
     }
 
     const entity = await ordSalidaModel.findById(id);
+    if (!entity) {
+      return res.status(404).json({
+        ok: false,
+        data: { message: 'No localizado' },
+      });
+    }
     return res.status(200).json({
       ok: true,
       data: entity,

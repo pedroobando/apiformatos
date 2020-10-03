@@ -2,12 +2,13 @@ const { Schema, model } = require('mongoose');
 
 const OrdSalidaSchema = Schema(
   {
-    fechaEmision: {
+    fechaemision: {
       type: Date,
       default: Date.now,
     },
     material: {
       type: String,
+      required: true,
     },
     retornara: {
       type: Boolean,
@@ -25,7 +26,6 @@ const OrdSalidaSchema = Schema(
     vehiculo: {
       type: Schema.Types.ObjectId,
       ref: 'Vehiculo',
-      required: true,
     },
     aprobadorAdm: {
       type: Schema.Types.ObjectId,

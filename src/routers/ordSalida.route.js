@@ -8,18 +8,18 @@ const { check } = require('express-validator');
 const { fieldValid } = require('../middlewares/fieldValid');
 const { validJWT } = require('../middlewares/validJWT');
 
-const { getAll, crtEntity } = require('../controllers/ordSalida.controller');
+const { getAll, getOne, crtEntity } = require('../controllers/ordSalida.controller');
 
 router.use(validJWT); // => Todas las rutas validaran el token
 
 router.get('/', getAll);
-// router.get('/:id', getOne);
+router.get('/:id', getOne);
 // router.get('/dni/:dni', getByDni);
 
 router.post(
   '/',
   [
-    check('fechaEmision', 'La fecha elaboracion es requerida').isDate(),
+    check('fechaemision', 'La fecha elaboracion es requerida').isDate(),
     check('material', 'El nombre del material o equipo es requerido').not().isEmpty(),
     check('material', 'El material o equipo debe contener minimo 5 caracteres').isLength({
       min: 5,

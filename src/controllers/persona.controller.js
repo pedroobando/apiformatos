@@ -55,6 +55,12 @@ const getOne = async (req, res = response) => {
     }
 
     const entity = await personaModel.findById(id);
+    if (!entity) {
+      return res.status(404).json({
+        ok: false,
+        data: { message: 'No localizado' },
+      });
+    }
     return res.status(200).json({
       ok: true,
       data: entity,
