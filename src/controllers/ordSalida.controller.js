@@ -3,13 +3,19 @@ const ordSalidaModel = require('../models/ordsalida');
 
 const crtEntity = async (req, res = response) => {
   const { uid } = req;
+  const { comentario } = req.body;
+
   try {
-    const { comentario } = req.body;
     const entity = new ordSalidaModel(req.body);
     entity.creador = uid;
-    const comentarioAdd = { nota: comentario, usuario: uid, fecha: '2020-10-30' };
-
-    entity.comentarios = [comentarioAdd];
+    if (comentario !== undefined) {
+      const comentarioAdd = {
+        nota: comentario,
+        usuario: uid,
+        fecha: entity.fechaemision,
+      };
+      entity.comentarios = [comentarioAdd];
+    }
     const entitySaved = await entity.save();
 
     return res.status(201).json({
@@ -29,7 +35,13 @@ const crtEntity = async (req, res = response) => {
 
 const getAll = async (req, res = response) => {
   try {
-    const entities = await ordSalidaModel.find();
+    const entities = await ordSalidaModel
+      .find()
+      .populate('solicitante', ['nombre'])
+      .populate('aprobadorAdm', ['nombre'])
+      .populate('aprobadorSeg', ['nombre'])
+      .populate('creador', ['name'])
+      .populate('transporte', ['placa']);
 
     return res.status(200).json({
       ok: true,
@@ -56,7 +68,13 @@ const getOne = async (req, res = response) => {
       });
     }
 
-    const entity = await ordSalidaModel.findById(id);
+    const entity = await ordSalidaModel
+      .findById(id)
+      .populate('solicitante', ['nombre', 'dni'])
+      .populate('aprobadorAdm', ['nombre', 'dni'])
+      .populate('aprobadorSeg', ['nombre', 'dni'])
+      .populate('creador', ['name', 'fullname'])
+      .populate('transporte', ['placa', 'marca', 'modelo', 'color']);
     if (!entity) {
       return res.status(404).json({
         ok: false,

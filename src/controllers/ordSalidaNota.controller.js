@@ -38,10 +38,7 @@ const delNota = async (req, res = response) => {
   const entityId = req.params.id;
   const { comentarioId } = req.body;
   try {
-    console.log(entityId, comentarioId);
-
     const entityFind = await ordSalidaModel.findById(entityId);
-    console.log('entityId, comentarioId');
     if (!entityFind) {
       return res.status(404).json({
         ok: false,
@@ -52,12 +49,6 @@ const delNota = async (req, res = response) => {
     const vcomentarios = entityFind.comentarios.filter(
       (coment) => coment.id !== comentarioId
     );
-
-    console.log(vcomentarios);
-
-    console.log({ ...entityFind, comentarios: vcomentarios });
-
-    // entityFind.comentarios = entityFind.comentarios.filter(coment=>(coment.id!==comentarioId)) [...entityFind.comentarios, { fecha, nota, usuario: uid }];
 
     const entityUpdated = await ordSalidaModel.findByIdAndUpdate(
       entityId,

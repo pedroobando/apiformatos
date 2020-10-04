@@ -22,7 +22,9 @@ const crtEntity = async (req, res = response) => {
 
     res.status(500).json({
       ok: false,
-      msg: 'Por favor hable con el administrador',
+      data: {
+        message: 'Consulte con el administrador',
+      },
     });
   }
 };
@@ -39,7 +41,9 @@ const getAll = async (req, res = response) => {
     console.log(error);
     res.status(500).json({
       ok: false,
-      msg: 'Por favor hable con el administrador',
+      data: {
+        message: 'Consulte con el administrador',
+      },
     });
   }
 };
@@ -69,7 +73,9 @@ const getOne = async (req, res = response) => {
     console.log(error);
     res.status(500).json({
       ok: false,
-      msg: 'Por favor hable con el administrador',
+      data: {
+        message: 'Consulte con el administrador',
+      },
     });
   }
 };
@@ -100,7 +106,9 @@ const getByDni = async (req, res = response) => {
     console.log(error);
     res.status(500).json({
       ok: false,
-      msg: 'Por favor hable con el administrador',
+      data: {
+        message: 'Consulte con el administrador',
+      },
     });
   }
 };
@@ -129,7 +137,9 @@ const updEntity = async (req, res = response) => {
     console.log(error);
     res.status(500).json({
       ok: false,
-      msg: 'Por favor hable con el administrador',
+      data: {
+        message: 'Consulte con el administrador',
+      },
     });
   }
 };
@@ -161,7 +171,9 @@ const delEntity = async (req, res = response) => {
     console.log(error);
     res.status(500).json({
       ok: false,
-      msg: 'Por favor hable con el administrador',
+      data: {
+        message: 'Consulte con el administrador',
+      },
     });
   }
 };

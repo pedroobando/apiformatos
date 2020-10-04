@@ -18,12 +18,12 @@ const OrdSalidaSchema = Schema(
       type: String,
       required: true,
     },
-    persona: {
+    solicitante: {
       type: Schema.Types.ObjectId,
       ref: 'Persona',
       required: true,
     },
-    vehiculo: {
+    transporte: {
       type: Schema.Types.ObjectId,
       ref: 'Vehiculo',
     },

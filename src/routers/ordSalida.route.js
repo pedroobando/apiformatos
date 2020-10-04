@@ -33,7 +33,7 @@ router.post(
       min: 5,
     }),
     check('destino', 'El destino es requerido del equipo es requerido').not().isEmpty(),
-    check('persona', 'Es requerido nombre de la persona responsable').not().isEmpty(),
+    check('solicitante', 'Es requerido nombre de la persona solicitante').not().isEmpty(),
     check('aprobadorAdm', 'El aprovador administrativo es requerido').not().isEmpty(),
     check('aprobadorSeg', 'El aprovador de seguridad es requerido').not().isEmpty(),
     fieldValid,

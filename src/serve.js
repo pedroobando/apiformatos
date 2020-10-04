@@ -14,12 +14,14 @@ dotenv.config();
 dbConnection();
 
 const thePort = process.env.PORT || 4000;
-serve.use(morgan('dev'));
+// console.log(process.env);
+if (process.env.NODE_ENV === 'DEV') {
+  serve.use(morgan('dev'));
+}
 
 serve.use(cors());
 serve.use(helmet());
 serve.use(json());
-
 // public router
 serve.use(express.static('./public'));
 
