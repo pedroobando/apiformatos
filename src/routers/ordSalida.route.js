@@ -32,6 +32,7 @@ router.post(
     check('material', 'El material o equipo debe contener minimo 5 caracteres').isLength({
       min: 5,
     }),
+    check('motivo', 'El motivo de la salida es requerida').not().isEmpty(),
     check('destino', 'El destino es requerido del equipo es requerido').not().isEmpty(),
     check('solicitante', 'Es requerido nombre de la persona solicitante').not().isEmpty(),
     check('aprobadorAdm', 'El aprovador administrativo es requerido').not().isEmpty(),
