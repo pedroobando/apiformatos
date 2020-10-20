@@ -37,9 +37,10 @@ const getAll = async (req, res = response) => {
   try {
     const entities = await ordSalidaModel
       .find()
+      .populate('departamento', ['nombre'])
       .populate('solicitante', ['nombre'])
-      .populate('aprobadorAdm', ['nombre'])
-      .populate('aprobadorSeg', ['nombre'])
+      .populate('aprobadoradm', ['nombre'])
+      .populate('aprobadorseg', ['nombre'])
       .populate('creador', ['name'])
       .populate('transporte', ['placa']);
 
@@ -70,9 +71,10 @@ const getOne = async (req, res = response) => {
 
     const entity = await ordSalidaModel
       .findById(id)
+      .populate('departamento', ['nombre', 'abreviacion'])
       .populate('solicitante', ['nombre', 'dni'])
-      .populate('aprobadorAdm', ['nombre', 'dni'])
-      .populate('aprobadorSeg', ['nombre', 'dni'])
+      .populate('aprobadoradm', ['nombre', 'dni'])
+      .populate('aprobadorseg', ['nombre', 'dni'])
       .populate('creador', ['name', 'fullname'])
       .populate('transporte', ['placa', 'marca', 'modelo', 'color']);
     if (!entity) {

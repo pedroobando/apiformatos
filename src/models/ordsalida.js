@@ -32,6 +32,11 @@ const OrdSalidaSchema = Schema(
       type: String,
       required: true,
     },
+    departamento: {
+      type: Schema.Types.ObjectId,
+      ref: 'Departamento',
+      required: true,
+    },
     solicitante: {
       type: Schema.Types.ObjectId,
       ref: 'Persona',
