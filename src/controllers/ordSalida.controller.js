@@ -1,5 +1,5 @@
 const { response } = require('express');
-const ordSalidaModel = require('../models/ordsalida');
+const ordSalidaModel = require('../models/ordSalida');
 
 const crtEntity = async (req, res = response) => {
   const { uid } = req;

@@ -119,8 +119,8 @@ const updEntity = async (req, res = response) => {
 };
 
 const delEntity = async (req, res = response) => {
-  const personaId = req.params.id;
-  if (personaId.length <= 20) {
+  const departamentoId = req.params.id;
+  if (departamentoId.length <= 20) {
     return res.status(404).json({
       ok: false,
       data: { message: 'Invalido codigo interno de busqueda' },
@@ -128,7 +128,7 @@ const delEntity = async (req, res = response) => {
   }
 
   try {
-    const entityFind = await departamentoModel.findById(personaId);
+    const entityFind = await departamentoModel.findById(departamentoId);
     if (!entityFind) {
       return res.status(404).json({
         ok: false,
@@ -136,7 +136,7 @@ const delEntity = async (req, res = response) => {
       });
     }
 
-    await departamentoModel.findByIdAndDelete(personaId);
+    await departamentoModel.findByIdAndDelete(departamentoId);
     return res.status(200).json({
       ok: true,
     });
@@ -151,10 +151,33 @@ const delEntity = async (req, res = response) => {
   }
 };
 
+const increment = async (departamentoId) => {
+  try {
+    const entityFind = await departamentoModel.findById(departamentoId);
+    if (!entityFind) {
+      return -1;
+    }
+
+    const entity = { ...entityFind, nrosalida: entityFind.nrosalida + 1 };
+    const entityUpdated = await departamentoModel.findByIdAndUpdate(
+      departamentoId,
+      entity,
+      {
+        new: true,
+      }
+    );
+
+    return entity.nrosalida;
+  } catch (error) {
+    return -1;
+  }
+};
+
 module.exports = {
   getAll,
   getOne,
   crtEntity,
   updEntity,
   delEntity,
+  increment,
 };
