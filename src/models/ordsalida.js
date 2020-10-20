@@ -4,7 +4,12 @@ const CounterModel = require('./counter');
 const OrdSalidaSchema = Schema(
   {
     numerosec: {
-      type: Number,
+      type: String,
+      required: true,
+      index: true,
+      unique: true,
+      uppercase: true,
+      trim: true,
       // default: 0,
     },
     fechaemision: {
@@ -36,12 +41,12 @@ const OrdSalidaSchema = Schema(
       type: Schema.Types.ObjectId,
       ref: 'Vehiculo',
     },
-    aprobadorAdm: {
+    aprobadoradm: {
       type: Schema.Types.ObjectId,
       ref: 'Persona',
       required: true,
     },
-    aprobadorSeg: {
+    aprobadorseg: {
       type: Schema.Types.ObjectId,
       ref: 'Persona',
       required: true,

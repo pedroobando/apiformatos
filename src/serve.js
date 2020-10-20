@@ -30,6 +30,7 @@ serve.use('/api/auth', require('./routers/auth.route'));
 serve.use('/api/user', require('./routers/user.route'));
 serve.use('/api/vehiculo', require('./routers/vehiculo.route'));
 serve.use('/api/persona', require('./routers/persona.route'));
+serve.use('/api/departamento', require('./routers/departamento.route'));
 serve.use('/api/ordsalida', require('./routers/ordSalida.route'));
 
 module.exports = { serve, thePort };
