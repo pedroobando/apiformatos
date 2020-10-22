@@ -1,5 +1,6 @@
 const { response } = require('express');
 const ordSalidaModel = require('../models/ordSalida');
+const { increment } = require('./departamento.controller');
 
 const crtEntity = async (req, res = response) => {
   const { uid } = req;
@@ -8,6 +9,9 @@ const crtEntity = async (req, res = response) => {
   try {
     const entity = new ordSalidaModel(req.body);
     entity.creador = uid;
+    const xnumerosec = await increment(entity.departamento);
+    console.log(xnumerosec);
+
     if (comentario !== undefined) {
       const comentarioAdd = {
         nota: comentario,
@@ -193,6 +197,10 @@ const delEntity = async (req, res = response) => {
       },
     });
   }
+};
+
+const newNumeroSec = (departamentoId) => {
+  return increment(departamentoId);
 };
 
 module.exports = {

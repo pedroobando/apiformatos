@@ -5,9 +5,9 @@ const OrdSalidaSchema = Schema(
   {
     numerosec: {
       type: String,
-      required: true,
-      index: true,
-      unique: true,
+      // required: true,
+      // index: true,
+      // unique: true,
       uppercase: true,
       trim: true,
       // default: 0,

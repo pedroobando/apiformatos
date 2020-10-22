@@ -36,8 +36,8 @@ router.post(
     check('destino', 'El destino es requerido del equipo es requerido').not().isEmpty(),
     check('departamento', 'El nombre del departamento es requerido').not().isEmpty(),
     check('solicitante', 'Es requerido nombre de la persona solicitante').not().isEmpty(),
-    check('aprobadorAdm', 'El aprovador administrativo es requerido').not().isEmpty(),
-    check('aprobadorSeg', 'El aprovador de seguridad es requerido').not().isEmpty(),
+    check('aprobadoradm', 'El aprovador administrativo es requerido').not().isEmpty(),
+    check('aprobadorseg', 'El aprovador de seguridad es requerido').not().isEmpty(),
     fieldValid,
   ],
   crtEntity
