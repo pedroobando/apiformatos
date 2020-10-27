@@ -1,5 +1,7 @@
-export const typeOrdSalida = {
+const typeOrdSalida = {
   NoRetornara: 'NO RETORNARA',
   PendienteRetorno: 'SI RETORNARA',
   YaRetorno: 'YA RETORNO',
 };
+
+module.exports = { typeOrdSalida };

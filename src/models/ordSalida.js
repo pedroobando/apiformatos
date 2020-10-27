@@ -6,12 +6,9 @@ const OrdSalidaSchema = Schema(
   {
     numerosec: {
       type: String,
-      // required: true,
-      // index: true,
-      // unique: true,
-      uppercase: true,
-      trim: true,
-      // default: 0,
+      required: true,
+      index: true,
+      unique: true,
     },
     fechaemision: {
       type: Date,
@@ -33,7 +30,6 @@ const OrdSalidaSchema = Schema(
       type: String,
       default: typeOrdSalida.PendienteRetorno,
     },
-
     destino: {
       type: String,
       required: true,
