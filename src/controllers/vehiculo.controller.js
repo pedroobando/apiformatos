@@ -28,13 +28,24 @@ const createVehiculo = async (req, res = response) => {
 };
 
 const getVehiculo = async (req, res = response) => {
+  const { page = 1, limit = 10, sort = '' } = req.query;
+  const optionPage = { page: parseInt(page, 10), limit: parseInt(limit, 10), sort };
   try {
-    const entities = await vehiculoModel.find();
+    const entities = await vehiculoModel.paginate({}, optionPage);
+    const resultJson = {
+      ok: entities.docs.length >= 1,
+      data: entities.docs,
+      ...entities,
+    };
+    delete resultJson.docs;
+    return res.status(200).json(resultJson);
+    // try {
+    //   const entities = await vehiculoModel.find();
 
-    return res.status(200).json({
-      ok: true,
-      data: entities,
-    });
+    //   return res.status(200).json({
+    //     ok: true,
+    //     data: entities,
+    //   });
   } catch (error) {
     console.log(error);
     res.status(500).json({

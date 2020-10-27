@@ -1,4 +1,4 @@
-const { response } = require('express');
+const { response, request } = require('express');
 const personaModel = require('../models/persona');
 
 const crtEntity = async (req, res = response) => {
@@ -29,14 +29,18 @@ const crtEntity = async (req, res = response) => {
   }
 };
 
-const getAll = async (req, res = response) => {
+const getAll = async (req = request, res = response) => {
+  const { page = 1, limit = 10, sort = '' } = req.query;
+  const optionPage = { page: parseInt(page, 10), limit: parseInt(limit, 10), sort };
   try {
-    const entities = await personaModel.find();
-
-    return res.status(200).json({
-      ok: true,
-      data: entities,
-    });
+    const entities = await personaModel.paginate({}, optionPage);
+    const resultJson = {
+      ok: entities.docs.length >= 1,
+      data: entities.docs,
+      ...entities,
+    };
+    delete resultJson.docs;
+    return res.status(200).json(resultJson);
   } catch (error) {
     console.log(error);
     res.status(500).json({

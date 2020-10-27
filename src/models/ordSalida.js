@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const CounterModel = require('./counter');
+// const CounterModel = require('./counter');
 
 const OrdSalidaSchema = Schema(
   {
@@ -60,6 +60,10 @@ const OrdSalidaSchema = Schema(
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
+    activo: {
+      type: Boolean,
+      default: true,
+    },
     comentarios: [
       {
         fecha: {
@@ -95,25 +99,5 @@ OrdSalidaSchema.method('toJSON', function () {
   }));
   return object;
 });
-
-// OrdSalidaSchema.pre('save', (next) => {
-//   let doc = this;
-//   CounterModel.findOneAndUpdate(
-//     { name: 'ordsalida' },
-//     { $inc: { seq: 1 } },
-//     (error, counter) => {
-//       if (!error) {
-//         console.log(!error);
-//         doc.numerosec = counter.seq;
-//       }
-//       //   // return next(error);
-//       // } else {
-//       //   doc.numerosec = counter.seq;
-//       //   // console.log(counter.seq);
-//       // }
-//       next();
-//     }
-//   );
-// });
 
 module.exports = model('OrdSalida', OrdSalidaSchema);

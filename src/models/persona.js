@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const PersonaSchema = Schema(
   {
@@ -22,13 +23,17 @@ const PersonaSchema = Schema(
     comentario: {
       type: String,
     },
-    aprobadorAdm: {
+    aprobadoradm: {
       type: Boolean,
       default: false,
     },
-    aprobadorSeg: {
+    aprobadorseg: {
       type: Boolean,
       default: false,
+    },
+    activo: {
+      type: Boolean,
+      default: true,
     },
   },
   {
@@ -43,4 +48,5 @@ PersonaSchema.method('toJSON', function () {
   return object;
 });
 
+PersonaSchema.plugin(mongoosePaginate);
 module.exports = model('Persona', PersonaSchema);

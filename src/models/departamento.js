@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const DepartamentoSchema = Schema(
   {
@@ -19,6 +20,10 @@ const DepartamentoSchema = Schema(
       type: Number,
       default: 1,
     },
+    activo: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     versionKey: false,
@@ -31,5 +36,7 @@ DepartamentoSchema.method('toJSON', function () {
   object.id = _id;
   return object;
 });
+
+DepartamentoSchema.plugin(mongoosePaginate);
 
 module.exports = model('Departamento', DepartamentoSchema);

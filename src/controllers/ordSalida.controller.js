@@ -2,6 +2,10 @@ const { response } = require('express');
 const ordSalidaModel = require('../models/ordSalida');
 const { increment } = require('./departamento.controller');
 
+const { numCero } = require('../helpers/numCero');
+const ordSalida = require('../models/ordSalida');
+const { parseTwoDigitYear } = require('moment');
+
 const crtEntity = async (req, res = response) => {
   const { uid } = req;
   const { comentario } = req.body;
@@ -11,6 +15,7 @@ const crtEntity = async (req, res = response) => {
     entity.creador = uid;
     const xnumerosec = await increment(entity.departamento);
     console.log(xnumerosec);
+    console.log(numCero(xnumerosec, 5));
 
     if (comentario !== undefined) {
       const comentarioAdd = {
@@ -38,19 +43,29 @@ const crtEntity = async (req, res = response) => {
 };
 
 const getAll = async (req, res = response) => {
+  const limit = parseInt(req.query.limit, 10) || 10;
+  const page = parseInt(req.query.page, 10) || 1;
+
   try {
     const entities = await ordSalidaModel
       .find()
+      .limit(limit)
+      .skip((page - 1) * limit)
       .populate('departamento', ['nombre'])
       .populate('solicitante', ['nombre'])
       .populate('aprobadoradm', ['nombre'])
       .populate('aprobadorseg', ['nombre'])
       .populate('creador', ['name'])
-      .populate('transporte', ['placa']);
+      .populate('transporte', ['placa'])
+      .exec();
+
+    const count = await ordSalidaModel.countDocuments();
 
     return res.status(200).json({
       ok: true,
       data: entities,
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
     });
   } catch (error) {
     console.log(error);
