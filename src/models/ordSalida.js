@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const { typeOrdSalida } = require('../types/typeOrdSalida');
 // const CounterModel = require('./counter');
 
 const OrdSalidaSchema = Schema(
@@ -16,6 +17,10 @@ const OrdSalidaSchema = Schema(
       type: Date,
       default: Date.now,
     },
+    fecharetorno: {
+      type: Date,
+      default: Date.now,
+    },
     material: {
       type: String,
       required: true,
@@ -24,10 +29,11 @@ const OrdSalidaSchema = Schema(
       type: String,
       required: true,
     },
-    retornara: {
-      type: Boolean,
-      default: true,
+    estatus: {
+      type: String,
+      default: typeOrdSalida.PendienteRetorno,
     },
+
     destino: {
       type: String,
       required: true,

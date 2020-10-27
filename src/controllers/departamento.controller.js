@@ -163,8 +163,6 @@ const increment = async (departamentoId) => {
     }
 
     entityFind.nrosalida += 1;
-    // const entity = { ...entityFind, nrosalida: entityFind.nrosalida + 1 };
-    console.log(entityFind);
     const entityUpdated = await departamentoModel.findByIdAndUpdate(
       departamentoId,
       entityFind,
@@ -174,10 +172,10 @@ const increment = async (departamentoId) => {
     );
 
     const fecha = new Date();
-    const retval = `${entityFind.abreviacion}-${
-      entityFind.nrosalida
-    }-${fecha.getFullYear()}`;
-    console.log(retval);
+    const { abreviacion, nrosalida } = entityFind;
+    const retval = `${abreviacion}-${nrosalida
+      .toString()
+      .padStart(5, '00000')}-${fecha.getFullYear()}`;
     return retval;
   } catch (error) {
     console.log(error);
