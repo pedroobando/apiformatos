@@ -3,14 +3,18 @@ const imagenModel = require('../models/imagen');
 const fse = require('fs-extra');
 
 const crtEntity = async (req, res = response) => {
+  const { ordsalida } = req.body;
   const entity = new imagenModel(req.file);
   const fileExtension = entity.originalname.split('.').pop();
   const fileName = `${entity.filename}.${fileExtension}`;
   const newDestino = `${entity.path}.${fileExtension}`;
   const oldDestino = entity.path;
   try {
+    console.log(ordsalida);
+    entity.ordsalida = ordsalida;
     entity.filename = fileName;
     entity.path = newDestino;
+    entity.url = `images/${fileName}`;
     rename(oldDestino, newDestino);
     const entitySaved = await entity.save();
     return res.status(201).json({
@@ -30,10 +34,14 @@ const crtEntity = async (req, res = response) => {
 };
 
 const getAll = async (req = request, res = response) => {
-  const { page = 1, limit = 10, sort = '', ordensalida = '' } = req.query;
+  const { page = 1, limit = 10, sort = '', ordsalida = '' } = req.query;
   const optionPage = { page: parseInt(page, 10), limit: parseInt(limit, 10), sort };
-  const condOrdSalida = ordsalida !== '' ? { ordsalida: ordensalida } : {};
+  const condOrdSalida = ordsalida !== '' ? { ordsalida } : {};
 
+  // const thePort = process.env.PORT || 4000;
+  // var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  // console.log(ip);
+  // console.log(req.connection);
   try {
     const entities = await imagenModel.paginate(condOrdSalida, optionPage);
     const resultJson = {
@@ -86,74 +94,10 @@ const getOne = async (req, res = response) => {
   }
 };
 
-const getByDni = async (req, res = response) => {
-  const { dni } = req.params;
-  try {
-    if (dni.length <= 2) {
-      return res.status(404).json({
-        ok: false,
-        data: { message: 'Invalida identificacion' },
-      });
-    }
-
-    const entity = await imagenModel.findOne({ dni });
-    if (!entity) {
-      return res.status(404).json({
-        ok: false,
-        data: { message: `Identificacion ${dni} no localizada` },
-      });
-    }
-
-    res.status(200).json({
-      ok: true,
-      data: entity,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      ok: false,
-      data: {
-        message: 'Consulte con el administrador',
-      },
-    });
-  }
-};
-
-const updEntity = async (req, res = response) => {
-  const personaId = req.params.id;
-  try {
-    const entityFind = await imagenModel.findById(personaId);
-    if (!entityFind) {
-      return res.status(404).json({
-        ok: false,
-        data: { message: 'Invalido codigo interno de busqueda' },
-      });
-    }
-
-    const entity = { ...req.body };
-    const entityUpdated = await imagenModel.findByIdAndUpdate(personaId, entity, {
-      new: true,
-    });
-
-    return res.status(200).json({
-      ok: true,
-      data: entityUpdated,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      ok: false,
-      data: {
-        message: 'Consulte con el administrador',
-      },
-    });
-  }
-};
-
 const delEntity = async (req, res = response) => {
-  const personaId = req.params.id;
-  console.log(personaId);
-  if (personaId.length <= 20) {
+  const imagenId = req.params.id;
+  console.log(imagenId);
+  if (imagenId.length <= 20) {
     return res.status(404).json({
       ok: false,
       data: { message: 'Invalido codigo interno de busqueda' },
@@ -161,7 +105,7 @@ const delEntity = async (req, res = response) => {
   }
 
   try {
-    const entityFind = await imagenModel.findById(personaId);
+    const entityFind = await imagenModel.findById(imagenId);
     if (!entityFind) {
       return res.status(404).json({
         ok: false,
@@ -169,9 +113,14 @@ const delEntity = async (req, res = response) => {
       });
     }
 
-    await imagenModel.findByIdAndDelete(personaId);
-    return res.status(200).json({
-      ok: true,
+    // entityFind;
+    fse.remove(entityFind.path).then(async (err) => {
+      if (!err) {
+        await imagenModel.findByIdAndDelete(imagenId);
+        return res.status(200).json({
+          ok: true,
+        });
+      }
     });
   } catch (error) {
     console.log(error);
@@ -199,8 +148,6 @@ const rename = (oldfile, newfile) => {
 module.exports = {
   getAll,
   getOne,
-  getByDni,
   crtEntity,
-  updEntity,
   delEntity,
 };

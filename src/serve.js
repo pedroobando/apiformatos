@@ -25,6 +25,7 @@ serve.use(helmet());
 serve.use(json());
 // public router
 serve.use(express.static('./public'));
+serve.use('/images', express.static('./public/uploads'));
 
 serve.use(uploads());
 

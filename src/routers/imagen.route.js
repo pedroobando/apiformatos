@@ -10,10 +10,8 @@ const { fieldValid } = require('../middlewares/fieldValid');
 
 const {
   getAll,
-  // getByDni,
   getOne,
   crtEntity,
-  updEntity,
   delEntity,
 } = require('../controllers/imagen.controller');
 
@@ -34,8 +32,6 @@ router.post(
   // ],
   crtEntity
 );
-
-router.put('/:id', updEntity);
 
 router.delete('/:id', delEntity);
 

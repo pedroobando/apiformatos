@@ -5,36 +5,32 @@ const ImagenSchema = Schema(
   {
     ordsalida: {
       type: Schema.Types.ObjectId,
-      ref: 'Persona',
-      required: false,
+      ref: 'ordSalida',
+      required: true,
     },
     fieldname: {
       type: String,
-      required: false,
     },
     originalname: {
       type: String,
-      required: false,
     },
     encoding: {
       type: String,
-      required: false,
     },
     mimetype: {
       type: String,
-      required: false,
     },
     destination: {
       type: String,
-      required: false,
     },
     filename: {
       type: String,
-      required: false,
     },
     path: {
       type: String,
-      required: false,
+    },
+    url: {
+      type: String,
     },
   },
   {
