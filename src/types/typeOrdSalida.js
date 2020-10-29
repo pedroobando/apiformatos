@@ -1,6 +1,6 @@
 const typeOrdSalida = {
-  NoRetornara: 'NO RETORNARA',
-  PendienteRetorno: 'SI RETORNARA',
+  NoRetorna: 'NO RETORNARA',
+  SiRetorna: 'SI RETORNARA',
   YaRetorno: 'YA RETORNO',
 };
 

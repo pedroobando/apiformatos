@@ -28,7 +28,7 @@ const OrdSalidaSchema = Schema(
     },
     estatus: {
       type: String,
-      default: typeOrdSalida.PendienteRetorno,
+      default: typeOrdSalida.SiRetorna,
     },
     destino: {
       type: String,
