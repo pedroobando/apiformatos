@@ -5,6 +5,7 @@ const helmet = require('helmet');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const { dbConnection } = require('./database/dbcnn');
+const { uploads } = require('./middlewares/uploads');
 
 // initialization
 const serve = express();
@@ -25,6 +26,8 @@ serve.use(json());
 // public router
 serve.use(express.static('./public'));
 
+serve.use(uploads());
+
 // Rutas
 serve.use('/api/auth', require('./routers/auth.route'));
 serve.use('/api/user', require('./routers/user.route'));
@@ -32,5 +35,6 @@ serve.use('/api/vehiculo', require('./routers/vehiculo.route'));
 serve.use('/api/persona', require('./routers/persona.route'));
 serve.use('/api/departamento', require('./routers/departamento.route'));
 serve.use('/api/ordsalida', require('./routers/ordSalida.route'));
+serve.use('/api/imagen', require('./routers/imagen.route'));
 
 module.exports = { serve, thePort };
