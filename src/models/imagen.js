@@ -20,9 +20,6 @@ const ImagenSchema = Schema(
     mimetype: {
       type: String,
     },
-    destination: {
-      type: String,
-    },
     filename: {
       type: String,
     },
