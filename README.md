@@ -2,6 +2,8 @@
 
 ## Description
 
+Aplicacion backend de creacion de tickes de salida de materiales o equipos, lleva el control de las personas, transporte y tiempo que permanecen los equipos afuera.
+
 ## La base de datos
 
 ```bash
