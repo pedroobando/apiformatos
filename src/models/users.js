@@ -4,6 +4,8 @@ const UserSchema = Schema(
   {
     name: {
       type: String,
+      index: true,
+      unique: true,
       required: true,
       lowercase: true,
       trim: true,
