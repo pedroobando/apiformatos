@@ -35,6 +35,10 @@ const PersonaSchema = Schema(
       type: Boolean,
       default: true,
     },
+    creador: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
   },
   {
     versionKey: false,
