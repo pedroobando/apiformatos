@@ -5,7 +5,7 @@ const userModel = require('../models/users');
 const { generarJWT } = require('../helpers/jwt');
 
 const createUser = async (req, res = response) => {
-  const { email, password } = req.body;
+  const { name, email, password } = req.body;
 
   try {
     let user = await userModel.findOne({ email });
@@ -17,6 +17,16 @@ const createUser = async (req, res = response) => {
         },
       });
     }
+
+    user = await userModel.findOne({ name });
+    if (user) {
+      return res.status(400).json({
+        ok: false,
+        data: {
+          message: `usuario ${name}, ya esta registrado`,
+        },
+      });
+    }
     user = new userModel(req.body);
     // Encriptar Contrasena
     const salt = bcrypt.genSaltSync();
@@ -25,11 +35,10 @@ const createUser = async (req, res = response) => {
     await user.save();
     return res.status(201).json(await respUserToken(true, user.id, user.name));
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       ok: false,
       data: {
-        message: 'Por favor hable con el administrador',
+        message: 'Consulte con el administrador',
       },
     });
   }
