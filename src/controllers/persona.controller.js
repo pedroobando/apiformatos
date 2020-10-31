@@ -154,7 +154,6 @@ const updEntity = async (req, res = response) => {
 
 const delEntity = async (req, res = response) => {
   const personaId = req.params.id;
-  console.log(personaId);
   if (personaId.length <= 20) {
     return res.status(404).json({
       ok: false,

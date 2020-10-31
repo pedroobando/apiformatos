@@ -120,9 +120,7 @@ const updateVehiculo = async (req, res = response) => {
         data: { message: 'Invalido codigo interno de busqueda' },
       });
     }
-    console.log(vehiculoId);
     const entity = { ...req.body };
-
     const entityUpdated = await vehiculoModel.findByIdAndUpdate(vehiculoId, entity, {
       new: true,
     });
@@ -158,7 +156,6 @@ const deleteVehiculo = async (req, res = response) => {
       });
     }
 
-    console.log(vehiculoId);
     await vehiculoModel.findByIdAndDelete(vehiculoId);
     return res.status(200).json({
       ok: true,

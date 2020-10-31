@@ -10,7 +10,6 @@ const crtEntity = async (req, res = response) => {
   const newDestino = `${entity.path}.${fileExtension}`;
   const oldDestino = entity.path;
   try {
-    console.log(ordsalida);
     entity.ordsalida = ordsalida;
     entity.filename = fileName;
     entity.path = newDestino;
@@ -96,7 +95,6 @@ const getOne = async (req, res = response) => {
 
 const delEntity = async (req, res = response) => {
   const imagenId = req.params.id;
-  console.log(imagenId);
   if (imagenId.length <= 20) {
     return res.status(404).json({
       ok: false,
