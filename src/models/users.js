@@ -24,6 +24,10 @@ const UserSchema = Schema(
       type: String,
       required: true,
     },
+    activo: {
+      type: Boolean,
+      default: true,
+    },
   },
   {
     versionKey: false,
