@@ -16,13 +16,13 @@ const createVehiculo = async (req, res = response) => {
     if (code === 11000) {
       return res.status(400).json({
         ok: false,
-        data: { mensaje: `Duplicidad placa: ${keyValue.placa}` },
+        data: { message: `Duplicidad placa: ${keyValue.placa}` },
       });
     }
 
     res.status(500).json({
       ok: false,
-      msg: 'Por favor hable con el administrador',
+      data: { message: 'Por favor hable con el administrador' },
     });
   }
 };
@@ -50,7 +50,7 @@ const getVehiculo = async (req, res = response) => {
     console.log(error);
     res.status(500).json({
       ok: false,
-      msg: 'Por favor hable con el administrador',
+      data: { message: 'Por favor hable con el administrador' },
     });
   }
 };
@@ -74,7 +74,7 @@ const getOneVehiculo = async (req, res = response) => {
     console.log(error);
     res.status(500).json({
       ok: false,
-      msg: 'Por favor hable con el administrador',
+      data: { message: 'Por favor hable con el administrador' },
     });
   }
 };
@@ -105,7 +105,7 @@ const getPlacaVehiculo = async (req, res = response) => {
     console.log(error);
     res.status(500).json({
       ok: false,
-      msg: 'Por favor hable con el administrador',
+      data: { message: 'Por favor hable con el administrador' },
     });
   }
 };
@@ -133,7 +133,7 @@ const updateVehiculo = async (req, res = response) => {
     console.log(error);
     res.status(500).json({
       ok: false,
-      msg: 'Por favor hable con el administrador',
+      data: { message: 'Por favor hable con el administrador' },
     });
   }
 };
@@ -164,7 +164,7 @@ const deleteVehiculo = async (req, res = response) => {
     console.log(error);
     res.status(500).json({
       ok: false,
-      msg: 'Por favor hable con el administrador',
+      data: { message: 'Por favor hable con el administrador' },
     });
   }
 };
