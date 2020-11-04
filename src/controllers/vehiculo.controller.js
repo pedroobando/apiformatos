@@ -149,7 +149,7 @@ const deleteVehiculo = async (req, res = response) => {
   }
 
   try {
-    const entityFind = await vehiculoModel.findById(id);
+    const entityFind = await vehiculoModel.findById(vehiculoId);
     if (!entityFind) {
       return res.status(404).json({
         ok: false,
