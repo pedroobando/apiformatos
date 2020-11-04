@@ -104,6 +104,7 @@ const listUser = async (req, res = response) => {
         data: [
           ...Users.map((item) => ({
             uid: item.id,
+            id: item.id,
             name: item.name,
             fullname: item.fullname,
             email: item.email,
