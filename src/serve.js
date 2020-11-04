@@ -31,7 +31,7 @@ serve.use(uploads());
 
 // Rutas
 serve.use('/api/auth', require('./routers/auth.route'));
-serve.use('/api/user', require('./routers/user.route'));
+serve.use('/api/usuario', require('./routers/user.route'));
 serve.use('/api/vehiculo', require('./routers/vehiculo.route'));
 serve.use('/api/persona', require('./routers/persona.route'));
 serve.use('/api/departamento', require('./routers/departamento.route'));
