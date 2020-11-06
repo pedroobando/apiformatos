@@ -124,7 +124,7 @@ const listUser = async (req, res = response) => {
 };
 
 const updateUser = async (req, res = response) => {
-  const { uid } = req;
+  const { uid } = req.params;
   const { name, fullname, email } = req.body;
   // const { uid, name } = req;
   try {
@@ -152,7 +152,15 @@ const updateUser = async (req, res = response) => {
       { name, fullname, email },
       { new: true }
     );
-    return res.status(200).json(await respUserToken(true, uid, name));
+    const _id = userUpdated._doc._id;
+    delete userUpdated._doc.password;
+
+    delete userUpdated._doc._id;
+    return res.status(200).json({
+      ok: true,
+      data: { uid: _id, id: _id, ...userUpdated._doc },
+    });
+    // return res.status(200).json(await respUserToken(true, uid, name));
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -165,7 +173,7 @@ const updateUser = async (req, res = response) => {
 };
 
 const updateUserpass = async (req, res = response) => {
-  const { uid } = req;
+  const { uid } = req.params;
   const { password } = req.body;
   try {
     const User = await userModel.findById(uid);

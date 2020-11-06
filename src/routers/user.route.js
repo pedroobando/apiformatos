@@ -2,6 +2,7 @@
   Rutas de Usuarios / Auth
   host + /api/user
 */
+
 const router = require('express').Router();
 const { check } = require('express-validator');
 
@@ -18,7 +19,7 @@ const {
 router.get('/', validJWT, listUser);
 
 router.put(
-  '/',
+  '/:uid',
   [
     check('name', 'El name es requerido').not().isEmpty(),
     check('email', 'El email es requerido').isEmail(),
@@ -38,6 +39,6 @@ router.put(
   updateUserpass
 );
 
-router.delete('/', validJWT, deleteUser);
+router.delete('/:uid', validJWT, deleteUser);
 
 module.exports = router;
