@@ -10,13 +10,13 @@ const { fieldValid } = require('../middlewares/fieldValid');
 const { validJWT } = require('../middlewares/validJWT');
 
 const {
-  listUser,
+  getAll,
   updateUser,
   deleteUser,
   updateUserpass,
 } = require('../controllers/auth.controller');
 
-router.get('/', validJWT, listUser);
+router.get('/', validJWT, getAll);
 
 router.put(
   '/:uid',

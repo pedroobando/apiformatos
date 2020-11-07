@@ -24,6 +24,10 @@ const UserSchema = Schema(
       type: String,
       required: true,
     },
+    departamento: {
+      type: Schema.Types.ObjectId,
+      ref: 'Departamento',
+    },
     activo: {
       type: Boolean,
       default: true,

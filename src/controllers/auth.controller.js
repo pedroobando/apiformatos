@@ -5,7 +5,7 @@ const userModel = require('../models/users');
 const { generarJWT } = require('../helpers/jwt');
 
 const createUser = async (req, res = response) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, departamento = '' } = req.body;
 
   try {
     let user = await userModel.findOne({ email });
@@ -87,45 +87,87 @@ const renewToken = async (req, res = response) => {
   return res.status(200).json(await respUserToken(true, uid, name));
 };
 
-const listUser = async (req, res = response) => {
-  // const { uid, name } = req;
+const getAll = async (req, res = response) => {
+  const limit = parseInt(req.query.limit, 10) || 10;
+  const page = parseInt(req.query.page, 10) || 1;
+
   try {
-    const Users = await userModel.find();
-    if (!Users) {
-      return res.status(404).json({
-        ok: false,
-        data: {
-          message: 'Problema en mostrar usuarios',
-        },
-      });
-    } else {
-      res.status(200).json({
-        ok: true,
-        data: [
-          ...Users.map((item) => ({
-            uid: item.id,
-            id: item.id,
-            name: item.name,
-            fullname: item.fullname,
-            email: item.email,
-          })),
-        ],
-      });
-    }
+    const entities = await userModel
+      .find()
+      .limit(limit)
+      .skip((page - 1) * limit)
+      .populate('departamento', ['nombre'])
+      .exec();
+
+    const count = await userModel.countDocuments();
+
+    return res.status(200).json({
+      ok: true,
+      // data: entities,
+      // ok: true,
+      data: [
+        ...entities.map((item) => ({
+          uid: item.id,
+          id: item.id,
+          name: item.name,
+          fullname: item.fullname,
+          email: item.email,
+          departamento: item.departamento,
+        })),
+      ],
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({
       ok: false,
       data: {
-        message: 'Por favor hable con el administrador',
+        message: 'Consulte con el administrador',
       },
     });
   }
 };
 
+// const listUser = async (req, res = response) => {
+//   // const { uid, name } = req;
+//   try {
+//     const Users = await userModel.find();
+//     if (!Users) {
+//       return res.status(404).json({
+//         ok: false,
+//         data: {
+//           message: 'Problema en mostrar usuarios',
+//         },
+//       });
+//     } else {
+//       res.status(200).json({
+//         ok: true,
+//         data: [
+//           ...Users.map((item) => ({
+//             uid: item.id,
+//             id: item.id,
+//             name: item.name,
+//             fullname: item.fullname,
+//             email: item.email,
+//           })),
+//         ],
+//       });
+//     }
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({
+//       ok: false,
+//       data: {
+//         message: 'Por favor hable con el administrador',
+//       },
+//     });
+//   }
+// };
+
 const updateUser = async (req, res = response) => {
   const { uid } = req.params;
-  const { name, fullname, email } = req.body;
+  const { name, fullname, email, departamento } = req.body;
   // const { uid, name } = req;
   try {
     const User = await userModel.findById(uid);
@@ -149,7 +191,7 @@ const updateUser = async (req, res = response) => {
 
     const userUpdated = await userModel.findByIdAndUpdate(
       uid,
-      { name, fullname, email },
+      { name, fullname, email, departamento },
       { new: true }
     );
     const _id = userUpdated._doc._id;
@@ -268,7 +310,8 @@ module.exports = {
   createUser,
   loginUser,
   renewToken,
-  listUser,
+  // listUser,
+  getAll,
   deleteUser,
   updateUser,
   updateUserpass,
