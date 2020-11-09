@@ -90,10 +90,12 @@ const renewToken = async (req, res = response) => {
 const getAll = async (req, res = response) => {
   const limit = parseInt(req.query.limit, 10) || 10;
   const page = parseInt(req.query.page, 10) || 1;
+  const sort = req.query.sort || '';
 
   try {
     const entities = await userModel
       .find()
+      .sort({ name: 0 })
       .limit(limit)
       .skip((page - 1) * limit)
       .populate('departamento', ['nombre'])
@@ -168,7 +170,7 @@ const getAll = async (req, res = response) => {
 
 const updateUser = async (req, res = response) => {
   const { uid } = req.params;
-  const { name, fullname, email, departamento } = req.body;
+  const { name, fullname, email, departamento, activo } = req.body;
   // const { uid, name } = req;
   try {
     const User = await userModel.findById(uid);
