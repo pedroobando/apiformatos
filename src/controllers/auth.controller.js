@@ -113,6 +113,7 @@ const getAll = async (req, res = response) => {
           fullname: item.fullname,
           email: item.email,
           departamento: item.departamento,
+          activo: item.activo,
         })),
       ],
       totalPages: Math.ceil(count / limit),
@@ -191,7 +192,7 @@ const updateUser = async (req, res = response) => {
 
     const userUpdated = await userModel.findByIdAndUpdate(
       uid,
-      { name, fullname, email, departamento },
+      { name, fullname, email, departamento, activo },
       { new: true }
     );
     const _id = userUpdated._doc._id;
