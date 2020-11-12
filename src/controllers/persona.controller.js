@@ -33,11 +33,23 @@ const getAll = async (req = request, res = response) => {
   const { page = 1, limit = 10, sort = '', typepersona = '', activo = false } = req.query;
   const optionPage = { page: parseInt(page, 10), limit: parseInt(limit, 10), sort };
   // let findCondition = activo ? { activo: true } : {};
-  let findCondition = typepersona === 'administrador' ? { aprobadoradm: true } : {};
-  findCondition = typepersona === 'seguridad' ? { aprobadorseg: true } : findCondition;
-  if (activo) findCondition.push({ activo: true });
+  let findConditionPersona = undefined;
+  if (typepersona === 'administrador') {
+    findConditionPersona = { aprobadoradm: true };
+  }
+  if (typepersona === 'seguridad') {
+    findConditionPersona = { aprobadorseg: true };
+  }
+
+  if (activo && findConditionPersona !== undefined) {
+    findConditionPersona = { ...findConditionPersona, activo: true };
+  }
+
+  if (activo && findConditionPersona === undefined) {
+    findConditionPersona = { activo: true };
+  }
   try {
-    const entities = await personaModel.paginate(findCondition, optionPage);
+    const entities = await personaModel.paginate(findConditionPersona, optionPage);
     const resultJson = {
       ok: entities.docs.length >= 1,
       data: entities.docs,
