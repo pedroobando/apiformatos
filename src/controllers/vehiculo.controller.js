@@ -28,10 +28,11 @@ const createVehiculo = async (req, res = response) => {
 };
 
 const getVehiculo = async (req, res = response) => {
-  const { page = 1, limit = 10, sort = '' } = req.query;
+  const { page = 1, limit = 10, sort = '', activo = false } = req.query;
   const optionPage = { page: parseInt(page, 10), limit: parseInt(limit, 10), sort };
   try {
-    const entities = await vehiculoModel.paginate({}, optionPage);
+    let findCondition = activo ? { activo: true } : {};
+    const entities = await vehiculoModel.paginate(findCondition, optionPage);
     const resultJson = {
       ok: entities.docs.length >= 1,
       data: entities.docs,

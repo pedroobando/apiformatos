@@ -35,8 +35,9 @@ const crtEntity = async (req, res = response) => {
 const getAll = async (req, res = response) => {
   const { page = 1, limit = 10, sort = '', activo = false } = req.query;
   const optionPage = { page: parseInt(page, 10), limit: parseInt(limit, 10), sort };
+  let findCondition = activo ? { activo: true } : {};
   try {
-    const entities = await departamentoModel.paginate(soloActivos(activo), optionPage);
+    const entities = await departamentoModel.paginate(findCondition, optionPage);
     const resultJson = {
       ok: entities.docs.length >= 1,
       data: entities.docs,

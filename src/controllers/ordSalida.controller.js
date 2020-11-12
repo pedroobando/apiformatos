@@ -50,8 +50,9 @@ const getAll = async (req, res = response) => {
   const activo = req.query.activo || false;
 
   try {
+    let findCondition = activo ? { activo: true } : {};
     const entities = await ordSalidaModel
-      .find(soloActivos(activo))
+      .find(findCondition)
       .limit(limit)
       .skip((page - 1) * limit)
       .populate('departamento', ['nombre'])
