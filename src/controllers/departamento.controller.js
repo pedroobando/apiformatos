@@ -1,6 +1,5 @@
 const { response } = require('express');
 const departamentoModel = require('../models/departamento');
-const { soloActivos } = require('../helpers/soloActivos');
 const crtEntity = async (req, res = response) => {
   const entity = new departamentoModel({
     ...req.body,
