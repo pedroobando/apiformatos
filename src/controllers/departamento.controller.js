@@ -1,6 +1,6 @@
 const { response } = require('express');
 const departamentoModel = require('../models/departamento');
-
+const { soloActivos } = require('../helpers/soloActivos');
 const crtEntity = async (req, res = response) => {
   const entity = new departamentoModel({
     ...req.body,
@@ -29,14 +29,6 @@ const crtEntity = async (req, res = response) => {
         message: 'Consulte con el administrador',
       },
     });
-  }
-};
-
-const soloActivos = (confirmar) => {
-  if (confirmar) {
-    return { activo: true };
-  } else {
-    return {};
   }
 };
 
