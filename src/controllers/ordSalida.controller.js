@@ -36,13 +36,22 @@ const crtEntity = async (req, res = response) => {
   }
 };
 
+const soloActivos = (confirmar) => {
+  if (confirmar) {
+    return { activo: true };
+  } else {
+    return {};
+  }
+};
+
 const getAll = async (req, res = response) => {
   const limit = parseInt(req.query.limit, 10) || 10;
   const page = parseInt(req.query.page, 10) || 1;
+  const activo = req.query.activo || false;
 
   try {
     const entities = await ordSalidaModel
-      .find()
+      .find(soloActivos(activo))
       .limit(limit)
       .skip((page - 1) * limit)
       .populate('departamento', ['nombre'])

@@ -132,42 +132,6 @@ const getAll = async (req, res = response) => {
   }
 };
 
-// const listUser = async (req, res = response) => {
-//   // const { uid, name } = req;
-//   try {
-//     const Users = await userModel.find();
-//     if (!Users) {
-//       return res.status(404).json({
-//         ok: false,
-//         data: {
-//           message: 'Problema en mostrar usuarios',
-//         },
-//       });
-//     } else {
-//       res.status(200).json({
-//         ok: true,
-//         data: [
-//           ...Users.map((item) => ({
-//             uid: item.id,
-//             id: item.id,
-//             name: item.name,
-//             fullname: item.fullname,
-//             email: item.email,
-//           })),
-//         ],
-//       });
-//     }
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({
-//       ok: false,
-//       data: {
-//         message: 'Por favor hable con el administrador',
-//       },
-//     });
-//   }
-// };
-
 const updateUser = async (req, res = response) => {
   const { uid } = req.params;
   const { name, fullname, email, departamento, activo } = req.body;

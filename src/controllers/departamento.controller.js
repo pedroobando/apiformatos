@@ -32,11 +32,19 @@ const crtEntity = async (req, res = response) => {
   }
 };
 
+const soloActivos = (confirmar) => {
+  if (confirmar) {
+    return { activo: true };
+  } else {
+    return {};
+  }
+};
+
 const getAll = async (req, res = response) => {
-  const { page = 1, limit = 10, sort = '' } = req.query;
+  const { page = 1, limit = 10, sort = '', activo = false } = req.query;
   const optionPage = { page: parseInt(page, 10), limit: parseInt(limit, 10), sort };
   try {
-    const entities = await departamentoModel.paginate({}, optionPage);
+    const entities = await departamentoModel.paginate(soloActivos(activo), optionPage);
     const resultJson = {
       ok: entities.docs.length >= 1,
       data: entities.docs,
