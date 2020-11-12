@@ -36,24 +36,18 @@ const crtEntity = async (req, res = response) => {
   }
 };
 
-const soloActivos = (confirmar) => {
-  if (confirmar) {
-    return { activo: true };
-  } else {
-    return {};
-  }
-};
-
 const getAll = async (req, res = response) => {
   const limit = parseInt(req.query.limit, 10) || 10;
   const page = parseInt(req.query.page, 10) || 1;
   const activo = req.query.activo || false;
+  const sort = req.query.sort || 'fechaemision';
 
   try {
     let findCondition = activo ? { activo: true } : {};
     const entities = await ordSalidaModel
       .find(findCondition)
       .limit(limit)
+      .sort(sort)
       .skip((page - 1) * limit)
       .populate('departamento', ['nombre'])
       .populate('solicitante', ['nombre'])
