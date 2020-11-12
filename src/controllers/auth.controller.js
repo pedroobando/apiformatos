@@ -262,8 +262,8 @@ const updateUserpass = async (req, res = response) => {
 };
 
 const deleteUser = async (req, res = response) => {
-  const { uid } = req;
-  const { password } = req.body;
+  const { uid } = req.params;
+  // const { password } = req.body;
   try {
     const User = await userModel.findById(uid);
     if (!User) {
