@@ -4,22 +4,26 @@ const { increment } = require('./departamento.controller');
 
 const crtEntity = async (req, res = response) => {
   const { uid } = req;
-  const { comentario } = req.body;
+  // const { comentario } = req.body;
 
   try {
-    const entity = new ordSalidaModel(req.body);
-    entity.fechaemision = new Date();
-    entity.creador = uid;
+    const entity = new ordSalidaModel({
+      ...req.body,
+      fecharetorno: new Date(),
+      fechaemision: new Date(),
+      creador: uid,
+    });
     entity.numerosec = await increment(entity.departamento);
 
-    if (comentario !== undefined) {
-      const comentarioAdd = {
-        nota: comentario,
-        usuario: uid,
-        fecha: entity.fechaemision,
-      };
-      entity.comentarios = [comentarioAdd];
-    }
+    // if (comentario !== undefined) {
+    // const comentarioAdd = {
+    //   nota: entity.comentarioinicial,
+    //   usuario: uid,
+    //   fecha: new Date(),
+    // };
+    // entity.comentarios = [comentarioAdd];
+    // }
+    console.log('crtEntity', entity);
     const entitySaved = await entity.save();
 
     return res.status(201).json({

@@ -15,10 +15,11 @@ const validJWT = (req = request, res = response, next) => {
 
   try {
     //  iat, exp
-    const { uid, name } = jwt.verify(token, process.env.SECRET_JWT_SEED);
+    const { uid, name, seccion } = jwt.verify(token, process.env.SECRET_JWT_SEED);
 
     req.uid = uid;
     req.name = name;
+    req.seccion = seccion;
   } catch (error) {
     return res.status(401).json({
       ok: false,
