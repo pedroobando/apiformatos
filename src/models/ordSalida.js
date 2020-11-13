@@ -93,8 +93,22 @@ const OrdSalidaSchema = Schema(
 );
 
 OrdSalidaSchema.method('toJSON', function () {
-  const { comentarios, __v, _id, ...object } = this.toObject();
+  const {
+    __v,
+    _id,
+    departamento,
+    transporte,
+    aprobadoradm,
+    aprobadorseg,
+    solicitante,
+    ...object
+  } = this.toObject();
   object.id = _id;
+  object.departamento = { id: departamento._id, nombre: departamento.nombre };
+  object.transporte = { id: transporte._id, placa: transporte.placa };
+  object.aprobadoradm = { id: aprobadoradm._id, nombre: aprobadoradm.nombre };
+  object.aprobadorseg = { id: aprobadorseg._id, nombre: aprobadorseg.nombre };
+  object.solicitante = { id: solicitante._id, nombre: solicitante.nombre };
 
   // object.comentarios = comentarios.map((item) => ({
   //   id: item._id,

@@ -23,9 +23,9 @@ const crtEntity = async (req, res = response) => {
     // };
     // entity.comentarios = [comentarioAdd];
     // }
-    console.log('crtEntity', entity);
+    // console.log('crtEntity', entity);
     const entitySaved = await entity.save();
-
+    console.log(entitySaved);
     return res.status(201).json({
       ok: true,
       data: entitySaved,
@@ -58,12 +58,15 @@ const getAll = async (req, res = response) => {
       .populate('solicitante', ['nombre'])
       .populate('aprobadoradm', ['nombre'])
       .populate('aprobadorseg', ['nombre'])
-      .populate('creador', ['name'])
       .populate('transporte', ['placa'])
+      .populate('creador', ['name'])
       .exec();
 
-    const count = await ordSalidaModel.countDocuments();
-
+    const count = await ordSalidaModel.countDocuments(findCondition);
+    // .map((item) => ({
+    //   ...item,
+    //   departamento: { id: item.departamento._id, nombre: item.departamento.nombre },
+    // }))
     return res.status(200).json({
       ok: true,
       data: entities,
