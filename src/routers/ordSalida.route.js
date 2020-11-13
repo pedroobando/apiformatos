@@ -27,17 +27,17 @@ router.get('/:id', getOne);
 router.post(
   '/',
   [
-    check('fechaemision', 'La fecha elaboracion es requerida').isDate(),
+    // check('fechaemision', 'La fecha elaboracion es requerida').isDate(),
     check('material', 'El nombre del material o equipo es requerido').not().isEmpty(),
     check('material', 'El material o equipo debe contener minimo 5 caracteres').isLength({
       min: 5,
     }),
     check('motivo', 'El motivo de la salida es requerida').not().isEmpty(),
     check('destino', 'El destino es requerido del equipo es requerido').not().isEmpty(),
-    check('departamento', 'El nombre del departamento es requerido').not().isEmpty(),
+    check('departamento', 'El departamento es requerido').not().isEmpty(),
     check('solicitante', 'Es requerido nombre de la persona solicitante').not().isEmpty(),
-    check('aprobadoradm', 'El aprovador administrativo es requerido').not().isEmpty(),
-    check('aprobadorseg', 'El aprovador de seguridad es requerido').not().isEmpty(),
+    check('aprobadoradm', 'El aprobador administrativo es requerido').not().isEmpty(),
+    check('aprobadorseg', 'El aprobador de seguridad es requerido').not().isEmpty(),
     fieldValid,
   ],
   crtEntity

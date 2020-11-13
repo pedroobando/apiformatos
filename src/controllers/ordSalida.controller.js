@@ -8,6 +8,7 @@ const crtEntity = async (req, res = response) => {
 
   try {
     const entity = new ordSalidaModel(req.body);
+    entity.fechaemision = new Date();
     entity.creador = uid;
     entity.numerosec = await increment(entity.departamento);
 

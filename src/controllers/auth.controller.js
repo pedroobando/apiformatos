@@ -33,7 +33,9 @@ const createUser = async (req, res = response) => {
     user.password = bcrypt.hashSync(password, salt);
 
     await user.save();
-    return res.status(201).json(await respUserToken(true, user.id, user.name));
+    return res
+      .status(201)
+      .json(await respUserToken(true, user.id, user.name, user.departamento));
   } catch (error) {
     res.status(500).json({
       ok: false,
@@ -69,7 +71,9 @@ const loginUser = async (req, res = response) => {
       });
     }
 
-    return res.status(200).json(await respUserToken(true, user.id, user.name));
+    return res
+      .status(200)
+      .json(await respUserToken(true, user.id, user.name, user.departamento));
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -82,9 +86,9 @@ const loginUser = async (req, res = response) => {
 };
 
 const renewToken = async (req, res = response) => {
-  const { uid, name } = req;
+  const { uid, name, seccion } = req;
 
-  return res.status(200).json(await respUserToken(true, uid, name));
+  return res.status(200).json(await respUserToken(true, uid, name, seccion));
 };
 
 const getAll = async (req, res = response) => {
@@ -213,7 +217,9 @@ const updateUserpass = async (req, res = response) => {
       { password: newPass },
       { new: true }
     );
-    return res.status(200).json(await respUserToken(true, User.id, User.name));
+    return res
+      .status(200)
+      .json(await respUserToken(true, User.id, User.name, User.departamento));
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -261,13 +267,14 @@ const deleteUser = async (req, res = response) => {
   }
 };
 
-const respUserToken = async (ok, uid, name) => {
+const respUserToken = async (ok, uid, name, seccion) => {
   // Generar JWT
   return {
     ok,
     data: {
       uid,
       name,
+      seccion,
       token: await generarJWT(uid, name),
     },
   };
