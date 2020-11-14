@@ -124,21 +124,21 @@ const getOne = async (req, res = response) => {
   }
 };
 
-const getByDni = async (req, res = response) => {
-  const { dni } = req.params;
+const getByNumeroSec = async (req, res = response) => {
+  const { numerosec } = req.params;
   try {
-    if (dni.length <= 2) {
+    if (numerosec.length <= 6) {
       return res.status(404).json({
         ok: false,
-        data: { message: 'Invalida identificacion' },
+        data: { message: 'Invalido numero' },
       });
     }
 
-    const entity = await ordSalidaModel.findOne({ dni });
+    const entity = await ordSalidaModel.findOne({ numerosec });
     if (!entity) {
       return res.status(404).json({
         ok: false,
-        data: { message: `Identificacion ${dni} no localizada` },
+        data: { message: `${numerosec} no localizado.` },
       });
     }
 
@@ -227,7 +227,7 @@ const newNumeroSec = (departamentoId) => {
 module.exports = {
   getAll,
   getOne,
-  getByDni,
+  getByNumeroSec,
   crtEntity,
   updEntity,
   delEntity,

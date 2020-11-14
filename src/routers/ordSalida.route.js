@@ -14,6 +14,7 @@ const {
   crtEntity,
   updEntity,
   delEntity,
+  getByNumeroSec,
 } = require('../controllers/ordSalida.controller');
 
 const { addNota, delNota } = require('../controllers/ordSalidaNota.controller');
@@ -22,6 +23,7 @@ router.use(validJWT); // => Todas las rutas validaran el token
 
 router.get('/', getAll);
 router.get('/:id', getOne);
+router.get('/numerosec/:numerosec', getByNumeroSec);
 // router.get('/Sdni/:dni', getByDni);
 
 router.post(
