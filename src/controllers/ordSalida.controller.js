@@ -25,7 +25,7 @@ const crtEntity = async (req, res = response) => {
     // }
     // console.log('crtEntity', entity);
     const entitySaved = await entity.save();
-    console.log(entitySaved);
+    // console.log(entitySaved);
     return res.status(201).json({
       ok: true,
       data: entitySaved,
@@ -46,13 +46,14 @@ const getAll = async (req, res = response) => {
   const page = parseInt(req.query.page, 10) || 1;
   const activo = req.query.activo || false;
   const sort = req.query.sort || 'fechaemision';
+  const sortType = parseInt(req.query.sorttype, 10) || 1;
 
   try {
     let findCondition = activo ? { activo: true } : {};
     const entities = await ordSalidaModel
       .find(findCondition)
       .limit(limit)
-      .sort(sort)
+      .sort({ [sort]: sortType })
       .skip((page - 1) * limit)
       .populate('departamento', ['nombre'])
       .populate('solicitante', ['nombre'])
