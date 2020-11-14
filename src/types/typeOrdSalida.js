@@ -1,7 +1,7 @@
 const typeOrdSalida = {
-  NoRetorna: 'NO RETORNARA',
-  SiRetorna: 'SI RETORNARA',
-  YaRetorno: 'YA RETORNO',
+  NoRetorna: 'NORETORNA',
+  SiRetorna: 'SIRETORNA',
+  YaRetorno: 'YARETORNO',
 };
 
 module.exports = { typeOrdSalida };
