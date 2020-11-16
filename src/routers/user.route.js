@@ -30,7 +30,7 @@ router.put(
 );
 
 router.put(
-  '/password',
+  '/password/:uid',
   [
     check('password', 'El password debe ser minimo 6 caracteres').isLength({ min: 6 }),
     fieldValid,

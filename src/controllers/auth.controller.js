@@ -189,6 +189,7 @@ const updateUser = async (req, res = response) => {
 const updateUserpass = async (req, res = response) => {
   const { uid } = req.params;
   const { password } = req.body;
+  console.log(uid);
   try {
     const User = await userModel.findById(uid);
     if (!User) {
