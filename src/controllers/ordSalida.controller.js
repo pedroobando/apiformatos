@@ -47,9 +47,12 @@ const getAll = async (req, res = response) => {
   const activo = req.query.activo || false;
   const sort = req.query.sort || 'fechaemision';
   const sortType = parseInt(req.query.sorttype, 10) || 1;
+  const selectDpto = req.query.seccion || '';
 
   try {
-    let findCondition = activo ? { activo: true } : {};
+    let findCondition = activo
+      ? { activo: true, departamento: selectDpto }
+      : { departamento: selectDpto };
     const entities = await ordSalidaModel
       .find(findCondition)
       .limit(limit)
