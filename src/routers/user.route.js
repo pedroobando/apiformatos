@@ -11,12 +11,15 @@ const { validJWT } = require('../middlewares/validJWT');
 
 const {
   getAll,
+  getOne,
   updateUser,
   deleteUser,
   updateUserpass,
 } = require('../controllers/auth.controller');
 
 router.get('/', validJWT, getAll);
+
+router.get('/:uid', validJWT, getOne);
 
 router.put(
   '/:uid',

@@ -137,6 +137,49 @@ const getAll = async (req, res = response) => {
   }
 };
 
+const getOne = async (req, res = response) => {
+  const uid = req.params.uid || undefined;
+  let retEntities = undefined;
+
+  try {
+    const entities = await userModel
+      .findById({ _id: uid })
+      .populate('departamento', ['nombre'])
+      .exec();
+    if (entities !== null) {
+      retEntities = res.status(200).json({
+        ok: true,
+        // data: entities,
+        data: {
+          uid: entities.id,
+          id: entities.id,
+          name: entities.name,
+          fullname: entities.fullname,
+          email: entities.email,
+          departamento: entities.departamento,
+          activo: entities.activo,
+          createdAt: entities.createdAt,
+          updatedAt: entities.updatedAt,
+        },
+      });
+    } else {
+      retEntities = res.status(404).json({
+        ok: true,
+        data: { message: 'Usuario nop localidado. Ups..' },
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    retEntities = res.status(500).json({
+      ok: false,
+      data: {
+        message: 'Consulte con el administrador',
+      },
+    });
+  }
+  return retEntities;
+};
+
 const updateUser = async (req, res = response) => {
   const { uid } = req.params;
   const { name, fullname, email, departamento, activo } = req.body;
@@ -288,6 +331,7 @@ module.exports = {
   renewToken,
   // listUser,
   getAll,
+  getOne,
   deleteUser,
   updateUser,
   updateUserpass,
