@@ -7,7 +7,9 @@ const fieldValid = (req, res = response, next) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({
       ok: false,
-      errors: errors.mapped(),
+      data: {
+        message: errors.mapped(),
+      },
     });
   }
 
