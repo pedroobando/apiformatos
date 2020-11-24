@@ -14,7 +14,7 @@ dotenv.config();
 // base de datos
 dbConnection();
 
-const thePort = process.env.PORT || 4000;
+const thePort = process.env.PORT || 8080;
 // console.log(process.env);
 if (process.env.NODE_ENV === 'DEV') {
   serve.use(morgan('dev'));

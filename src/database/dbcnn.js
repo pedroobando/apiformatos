@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 
 const dbConnection = async () => {
+  const cnndb =
+    process.env.NODE_ENV === 'DEV' ? process.env.DB_CNN : process.env.DB_CNNPRD;
   try {
-    await mongoose.connect(process.env.DB_CNN, {
+    await mongoose.connect(cnndb, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
