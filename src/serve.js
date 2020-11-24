@@ -22,8 +22,10 @@ if (process.env.NODE_ENV === 'DEV') {
 
 serve.use(cors());
 serve.use(helmet());
+
 serve.use(json());
 // public router
+
 serve.use(express.static('./public'));
 serve.use('/images', express.static('./public/uploads'));
 
