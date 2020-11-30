@@ -5,7 +5,7 @@ const userModel = require('../models/users');
 const { generarJWT } = require('../helpers/jwt');
 
 const createUser = async (req, res = response) => {
-  const { name, email, password, departamento = '' } = req.body;
+  const { name, email, password, departamento = '', administrador = false } = req.body;
 
   try {
     let user = await userModel.findOne({ email });
@@ -121,6 +121,7 @@ const getAll = async (req, res = response) => {
           email: item.email,
           departamento: item.departamento,
           activo: item.activo,
+          administrador: item.administrador,
         })),
       ],
       totalPages: Math.ceil(count / limit),
@@ -158,6 +159,7 @@ const getOne = async (req, res = response) => {
           email: entities.email,
           departamento: entities.departamento,
           activo: entities.activo,
+          administrador: entities.administrador,
           createdAt: entities.createdAt,
           updatedAt: entities.updatedAt,
         },
@@ -182,7 +184,7 @@ const getOne = async (req, res = response) => {
 
 const updateUser = async (req, res = response) => {
   const { uid } = req.params;
-  const { name, fullname, email, departamento, activo } = req.body;
+  const { name, fullname, email, departamento, activo, administrador } = req.body;
   // const { uid, name } = req;
   try {
     const User = await userModel.findById(uid);
@@ -206,7 +208,7 @@ const updateUser = async (req, res = response) => {
 
     const userUpdated = await userModel.findByIdAndUpdate(
       uid,
-      { name, fullname, email, departamento, activo },
+      { name, fullname, email, departamento, activo, administrador },
       { new: true }
     );
     const _id = userUpdated._doc._id;

@@ -32,6 +32,10 @@ const UserSchema = Schema(
       type: Boolean,
       default: true,
     },
+    administrador: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     versionKey: false,
