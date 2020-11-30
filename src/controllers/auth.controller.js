@@ -47,10 +47,10 @@ const createUser = async (req, res = response) => {
 };
 
 const loginUser = async (req, res = response) => {
-  const { email, password } = req.body;
-  // console.log(email, password);
+  const { name, password } = req.body;
+  // console.log(name, password);
   try {
-    const user = await userModel.findOne({ email });
+    const user = await userModel.findOne({ name });
     if (!user) {
       return res.status(400).json({
         ok: false,

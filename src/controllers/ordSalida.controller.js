@@ -44,17 +44,26 @@ const crtEntity = async (req, res = response) => {
 const getAll = async (req, res = response) => {
   const limit = parseInt(req.query.limit, 10) || 10;
   const page = parseInt(req.query.page, 10) || 1;
-  const activo = req.query.activo || false;
+  // const activo = req.query.activo || false;
   const sort = req.query.sort || 'fechaemision';
   const sortType = parseInt(req.query.sorttype, 10) || 1;
   const selectDpto = req.query.seccion || '';
+  const material = req.query.material.trim() || '';
 
   try {
-    let findCondition = activo
-      ? { activo: true, departamento: selectDpto }
-      : { departamento: selectDpto };
+    // let findCondition = activo
+    //   ? { activo: true, departamento: selectDpto }
+    //   : { departamento: selectDpto };
+
+    // if (material.trim().length >= 1) {
+    //   // const $regex = escapeStringRegexp(`/${material}/i`);
+    //   findCondition.material = { $regex: material, $options: 'i' };
+    // }
+
+    // console.log(findCondition);
+
     const entities = await ordSalidaModel
-      .find(findCondition)
+      .find({ material: { $regex: material, $options: 'i' }, departamento: selectDpto })
       .limit(limit)
       .sort({ [sort]: sortType })
       .skip((page - 1) * limit)
@@ -66,7 +75,10 @@ const getAll = async (req, res = response) => {
       .populate('creador', ['name'])
       .exec();
 
-    const count = await ordSalidaModel.countDocuments(findCondition);
+    const count = await ordSalidaModel.countDocuments({
+      material: { $regex: material, $options: 'i' },
+      departamento: selectDpto,
+    });
     // .map((item) => ({
     //   ...item,
     //   departamento: { id: item.departamento._id, nombre: item.departamento.nombre },
