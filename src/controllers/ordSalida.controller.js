@@ -23,9 +23,8 @@ const crtEntity = async (req, res = response) => {
     // };
     // entity.comentarios = [comentarioAdd];
     // }
-    // console.log('crtEntity', entity);
+
     const entitySaved = await entity.save();
-    // console.log(entitySaved);
     return res.status(201).json({
       ok: true,
       data: entitySaved,
@@ -59,8 +58,6 @@ const getAll = async (req, res = response) => {
     //   // const $regex = escapeStringRegexp(`/${material}/i`);
     //   findCondition.material = { $regex: material, $options: 'i' };
     // }
-
-    // console.log(findCondition);
 
     const entities = await ordSalidaModel
       .find({ material: { $regex: material, $options: 'i' }, departamento: selectDpto })

@@ -35,7 +35,15 @@ const createUser = async (req, res = response) => {
     await user.save();
     return res
       .status(201)
-      .json(await respUserToken(true, user.id, user.name, user.departamento));
+      .json(
+        await respUserToken(
+          true,
+          user.id,
+          user.name,
+          user.departamento,
+          user.administrador
+        )
+      );
   } catch (error) {
     res.status(500).json({
       ok: false,
@@ -48,7 +56,6 @@ const createUser = async (req, res = response) => {
 
 const loginUser = async (req, res = response) => {
   const { name, password } = req.body;
-  // console.log(name, password);
   try {
     const user = await userModel.findOne({ name });
     if (!user) {
@@ -73,7 +80,15 @@ const loginUser = async (req, res = response) => {
 
     return res
       .status(200)
-      .json(await respUserToken(true, user.id, user.name, user.departamento));
+      .json(
+        await respUserToken(
+          true,
+          user.id,
+          user.name,
+          user.departamento,
+          user.administrador
+        )
+      );
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -86,10 +101,11 @@ const loginUser = async (req, res = response) => {
 };
 
 const renewToken = async (req, res = response) => {
-  const { uid, name, seccion } = req;
-  // console.log(uid,name,se)
+  const { uid, name, seccion, administrador } = req;
 
-  return res.status(200).json(await respUserToken(true, uid, name, seccion));
+  return res
+    .status(200)
+    .json(await respUserToken(true, uid, name, seccion, administrador));
 };
 
 const getAll = async (req, res = response) => {
@@ -234,7 +250,6 @@ const updateUser = async (req, res = response) => {
 const updateUserpass = async (req, res = response) => {
   const { uid } = req.params;
   const { password } = req.body;
-  console.log(uid);
   try {
     const User = await userModel.findById(uid);
     if (!User) {
@@ -266,7 +281,15 @@ const updateUserpass = async (req, res = response) => {
     );
     return res
       .status(200)
-      .json(await respUserToken(true, User.id, User.name, User.departamento));
+      .json(
+        await respUserToken(
+          true,
+          User.id,
+          User.name,
+          User.departamento,
+          User.administrador
+        )
+      );
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -314,7 +337,7 @@ const deleteUser = async (req, res = response) => {
   }
 };
 
-const respUserToken = async (ok, uid, name, seccion) => {
+const respUserToken = async (ok, uid, name, seccion, administrador) => {
   // Generar JWT
   return {
     ok,
@@ -322,7 +345,8 @@ const respUserToken = async (ok, uid, name, seccion) => {
       uid,
       name,
       seccion,
-      token: await generarJWT(uid, name, seccion),
+      isAdmin: administrador,
+      token: await generarJWT(uid, name, seccion, administrador),
     },
   };
 };
