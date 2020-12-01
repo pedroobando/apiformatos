@@ -337,8 +337,9 @@ const deleteUser = async (req, res = response) => {
   }
 };
 
-const respUserToken = async (ok, uid, name, seccion, administrador) => {
+const respUserToken = async (ok, uid, name, seccion = '', administrador = false) => {
   // Generar JWT
+
   return {
     ok,
     data: {
@@ -346,7 +347,7 @@ const respUserToken = async (ok, uid, name, seccion, administrador) => {
       name,
       seccion,
       isAdmin: administrador,
-      token: await generarJWT(uid, name, seccion, administrador),
+      token: await generarJWT(uid, name),
     },
   };
 };
