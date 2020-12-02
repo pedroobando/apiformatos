@@ -66,13 +66,13 @@ $ kill -9 {PID}
 
 ```bash
 # Crear la imagen
-  $ docker build -t apiromaimg .
+  $ docker build -t endpsalidaimg .
 
 # Crear el contenedor
 # puerto_expuesto: puerto_interno
 # -it: modo interactivo
 # -d: modo deployment
-  $ docker run --name apiromanero -it -d --restart always -p 3001:3003 apiromaimg
+  $ docker run --name endpointsalida -it -d --restart always -p 4001:4000 endpsalidaimg
 
 # Guida de node Docker
   https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
