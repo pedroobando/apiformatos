@@ -66,13 +66,13 @@ $ kill -9 {PID}
 
 ```bash
 # Crear la imagen
-  $ docker build -t endpsalidaimg .
+  $ docker build -t backendsalidaimg .
 
 # Crear el contenedor
 # puerto_expuesto: puerto_interno
 # -it: modo interactivo
 # -d: modo deployment
-  $ docker run --name endpointsalida -it -d --restart always -p 4001:4000 endpsalidaimg
+  $ docker run --name backendsalida -it -d --restart always -p 4001:4000 backendsalidaimg
 
 # Guida de node Docker
   https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
